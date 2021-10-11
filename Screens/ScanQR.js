@@ -11,14 +11,15 @@ import PaymentOptions from './PaymentOptions.js';
 export default class ScanQR extends React.Component{
 
     onSuccess = e => {
-            this.props.navigation.navigate('PaymentOptions', {text: e.data});            
+            this.props.navigation.navigate('PaymentOptions', {text: e.data});     
+            this.scanner.reactivate();       
             };
     
     render(){
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{alert("Notification!")}}>
@@ -29,7 +30,9 @@ export default class ScanQR extends React.Component{
             <Text style={{padding:20, fontSize:30, fontWeight:'bold', textAlign:'center', marginTop:40}}> Scan the QR Code to make the payment </Text>
 
             <View style={{marginTop:20, paddingLeft:30}}>
-                <QRCodeScanner
+                <QRCodeScanner 
+                    reactivate={true}
+                    ref={(node) => { this.scanner = node }}
                     onRead={this.onSuccess}
                     cameraStyle={[{backgroundColor:'white', overflow:'hidden', position: 'absolute', height: 330, width: 315, borderRadius:20}]}
                     flashMode={RNCamera.Constants.FlashMode.auto}

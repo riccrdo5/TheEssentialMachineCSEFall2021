@@ -11,7 +11,7 @@ export default class UserAccount extends React.Component{
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
-            <TouchableOpacity onPress={()=>{alert("Help!")}} >
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} >
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{alert("Notification!")}}>
@@ -19,7 +19,7 @@ export default class UserAccount extends React.Component{
             </TouchableOpacity>
             </View>
 
-            <Image source={require('./user-icon.png')} style={{height:200, width:200, left:100, marginTop:60}} />
+            <Image source={require('./user-icon.png')} style={{height:200, width:200, left:100, marginTop:50}} />
 
             <TouchableOpacity style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:100, paddingRight:120, paddingTop:20}} onPress={()=> this.props.navigation.navigate('EditProfile')}>
             <Text style={{fontSize:25, textAlign:'center'}}> Email Address </Text>
@@ -35,7 +35,7 @@ export default class UserAccount extends React.Component{
                 <Text style={{fontSize:20,fontWeight:"bold", color:'black'}}> LOGOUT </Text>
             </TouchableOpacity>
 
-            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:25, paddingRight:25, paddingTop:120}}>
+            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:25, paddingRight:25, paddingTop:90}}>
             <TouchableOpacity onPress={()=>{alert("Help!")}}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>

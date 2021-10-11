@@ -11,10 +11,10 @@ export default class EditProfile extends React.Component{
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
-            <Image source={require('./cross-icon.png')} style={{height:50, width:50,marginTop:70}}/>
+            <Image source={require('./cross-icon.png')} style={{height:50, width:50,marginTop:60}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
-            <Image source={require('./tick-icon.png')} style={{height:50, width:50,marginTop:70}} />
+            <Image source={require('./tick-icon.png')} style={{height:50, width:50,marginTop:60}} />
             </TouchableOpacity>
             </View>
 
