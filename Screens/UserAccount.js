@@ -4,6 +4,7 @@ import {View,Button,TouchableOpacity} from 'react-native';
 import HomeScreen from './Homepage.js'; 
 import EditProfile from './EditProfile.js';
 import Receipts from './Receipts.js';
+import ScanQR from './ScanQR.js';
 
 export default class UserAccount extends React.Component{
     render(){
@@ -41,7 +42,7 @@ export default class UserAccount extends React.Component{
             <TouchableOpacity onPress={()=>{alert("Map!")}}>
             <Image source={require('./map-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert("Scan!")}}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanQR')} >
             <Image source={require('./scan-icon.png')} style={{height:70, width:120}} />
             </TouchableOpacity>
             </View>
