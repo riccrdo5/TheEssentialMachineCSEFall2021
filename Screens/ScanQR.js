@@ -32,6 +32,7 @@ export default class ScanQR extends React.Component{
             <View style={{marginTop:20, paddingLeft:30}}>
                 <QRCodeScanner 
                     reactivate={true}
+                    showMarker={true}
                     ref={(node) => { this.scanner = node }}
                     onRead={this.onSuccess}
                     cameraStyle={[{backgroundColor:'white', overflow:'hidden', position: 'absolute', height: 330, width: 315, borderRadius:20}]}

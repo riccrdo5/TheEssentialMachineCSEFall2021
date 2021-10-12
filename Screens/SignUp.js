@@ -6,6 +6,7 @@ import HomeScreen from './Homepage.js';
 import { StackNavigator } from "react-navigation"; 
 
 export default class SignUp extends React.Component{
+
     render(){
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
@@ -14,7 +15,7 @@ export default class SignUp extends React.Component{
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:60, left:20}}/>
             </TouchableOpacity>
 
-            <Text style={{fontSize:30, color:'white', fontWeight:'bold', textAlign:'center'}}> SIGN UP </Text>
+            <Text style={{fontSize:30, color:'white', fontWeight:'bold', textAlign:'center', marginTop:20}}> SIGN UP </Text>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }}> 
                 <Image source={require('./name-icon.png')} style={{height:15, width:15}} />
@@ -53,20 +54,15 @@ export default class SignUp extends React.Component{
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Current Password"/>
+                <TextInput style={{fontSize:15, color:'grey'}} placeholder=" Password"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  New Password"/>
+                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Confirm Password"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
-                <Image source={require('./password-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Confirm New Password"/>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:200, left:90, marginTop:20}} onPress={()=> this.props.navigation.navigate('Main')}>
+            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:200, left:90, marginTop:30}} onPress={()=> this.props.navigation.navigate('Main')}>
             <Text style={{fontSize:20, fontWeight:"bold", color:"white"}}> CREATE ACCOUNT </Text>
             </TouchableOpacity>
 
