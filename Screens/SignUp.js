@@ -11,7 +11,6 @@ import {firebaseApp} from '../config/firebase';
 export default class SignUp extends React.Component{
     constructor(){
         super();
-
     }
 
     state = {
@@ -24,6 +23,8 @@ export default class SignUp extends React.Component{
         state:'',
         zip:'',
         confirmPassword:'',
+        hiddenPassword:true,
+        hiddenConfirmPassword:true,
         errorMessage: null,
         isLoading: false
         }
@@ -104,50 +105,50 @@ export default class SignUp extends React.Component{
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <SafeAreaView style={styles.container}>
-             <ScrollView style={styles.scrollView}>
+            <ScrollView style={styles.scrollView}>
 
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('HomeScreen')} >
-            <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:60, left:20}}/>
+            <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:40, left:20}}/>
             </TouchableOpacity>
 
             <Text style={{fontSize:30, color:'white', fontWeight:'bold', textAlign:'center'}}> SIGN UP </Text>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }}>
                 <Image source={require('./name-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  First Name"    placeholderTextColor="black"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  First Name"    placeholderTextColor="black"
                   onChangeText = {this.handleFirstName}/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./name-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Last Name" placeholderTextColor="black"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  Last Name" placeholderTextColor="black"
                   onChangeText = {this.handleLastName}/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./school-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  School"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  School"
                 placeholderTextColor="black"
                 onChangeText = {this.handleSchool}/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./city-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  City"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  City"
                 placeholderTextColor="black"
                 onChangeText = {this.handleCity}/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./city-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  State"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  State"
                 placeholderTextColor="black"
                 onChangeText = {this.handleState}/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./map-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  ZipCode"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  ZipCode"
                     keyboardType="numeric"
                 placeholderTextColor="black"
                 onChangeText = {this.handleZip}/>
@@ -155,7 +156,7 @@ export default class SignUp extends React.Component{
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./email-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Email Address"
+                <TextInput autoCapitalize='none' style={{fontSize:15, color:'grey'}} placeholder="  Email Address"
                 placeholderTextColor="black"
                 keyboardType='email-address'
                 textContentType='emailAddress'
@@ -163,35 +164,43 @@ export default class SignUp extends React.Component{
                 onChangeText = {this.handleEmail}/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./password-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder=" Password"
+                <TextInput autoCapitalize='none' secureTextEntry={this.state.hiddenPassword} style={{fontSize:15, color:'grey', right:90}} placeholder=" Password"
                 placeholderTextColor="black"
                 onChangeText = {this.handlePassword}/>
+                <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ hiddenPassword: !this.state.hiddenPassword })}>
+                <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
+                </TouchableOpacity>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:300, left:30, borderRadius:20, marginTop:20 }} >
                 <Image source={require('./password-icon.png')} style={{height:15, width:15}} />
-                <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Confirm New Password"
+                <TextInput autoCapitalize='none' secureTextEntry={this.state.hiddenConfirmPassword} style={{fontSize:15, color:'grey', right:60}} placeholder="  Confirm Password"
                 placeholderTextColor="black"
-                onChangeText = {this.handleConfirmPassword}/>
+                onChangeText = {this.handleConfirmPassword}
+                />
+                <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ hiddenConfirmPassword: !this.state.hiddenConfirmPassword })}>
+                <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
+                </TouchableOpacity>
             </TouchableOpacity>
             </ScrollView>
             </SafeAreaView>
             
-            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:250, left:50, marginTop:20}}
+            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:250, left:80, top:0}}
             onPress={
                 () => this.onHandleSignup(this.state.email, this.state.password)
              }>     
             <Text style={{fontSize:20, fontWeight:"bold", color:"white"}} > CREATE ACCOUNT </Text>
             </TouchableOpacity>
+           
             {this.state.errorMessage &&
-                        <Text style={styles.errorText}>
+                <Text style={styles.errorText}>
                             {this.state.errorMessage}
-                        </Text>}
+                </Text>}
 
             <TouchableOpacity onPress={()=>{alert("Help!")}}>
-            <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:20 }} />
+            <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:0 }} />
             </TouchableOpacity>
             </View>
         </>
@@ -199,7 +208,7 @@ export default class SignUp extends React.Component{
 };
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 0.95,
       paddingTop: StatusBar.currentHeight,
     },
     scrollView: {
@@ -209,8 +218,10 @@ const styles = StyleSheet.create({
       fontSize: 42,
     },
     errorText: {
-        color: '#fdca40',
-        fontSize: 20,
+        color: '#ff0000',
+        fontSize: 18,
+        textAlign:'center',
+        marginTop: 10,
         marginBottom: 10,
         fontWeight: '600'
       }

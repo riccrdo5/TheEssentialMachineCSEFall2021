@@ -5,8 +5,30 @@ import UserAccount from './UserAccount.js';
 import Login from './LoginPage.js';
 import ResetPasswordSuccess from './ResetPasswordSuccess.js'
 import { StackNavigator } from "react-navigation";
+import {firebaseApp} from '../config/firebase';
 
 export default class ForgotPassword extends React.Component{
+    constructor(){
+        super();
+    }
+
+    state = {
+        email: ''
+    }
+
+    handleEmail = (text) => {
+        this.setState({ email: text })
+    }
+
+    HandleForgotPassword = (email) =>{
+        this.setState({ error: false })
+        firebaseApp.auth().sendPasswordResetEmail(email)
+            .then(()=>
+                this.props.navigation.navigate('ResetPasswordSuccess')
+            ) 
+        .catch(error => this.setState({ errorMessage: error.message }));
+    }
+
     render(){
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
@@ -21,10 +43,15 @@ export default class ForgotPassword extends React.Component{
             
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:80 }} > 
                 <Image source={require('./email-icon.png')} style={{height:25, width:25}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  Email Address"/>
-            </TouchableOpacity>
+                <TextInput autoCapitalize='none' style={{fontSize:20, color:'grey'}} placeholder="  Email Address" 
+                placeholderTextColor="black"
+                keyboardType='email-address'
+                textContentType='emailAddress'
+                autoFocus={true}
+                onChangeText = {this.handleEmail}/>
+            </TouchableOpacity>                
 
-            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:200, left:90, marginTop:50}} onPress={()=> this.props.navigation.navigate('ResetPasswordSuccess')}>
+            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:200, left:90, marginTop:50}} onPress={() => this.HandleForgotPassword(this.state.email)}>
             <Text style={{fontSize:20, fontWeight:"bold", color:"white"}}> RESET PASSWORD </Text>
             </TouchableOpacity>
 
