@@ -26,7 +26,10 @@ export default class EditProfile extends React.Component{
         confirmNewPassword:'',
         passwordChangeNeeded: false,
         errorMessage:'',
-        successMessage:''
+        successMessage:'',
+        hiddenCurrentPassword:true,
+        hiddenNewPassword:true,
+        hiddenConfirmNewPassword:true,
     }
 
     fetchUserData = () =>{
@@ -36,7 +39,7 @@ export default class EditProfile extends React.Component{
         .then(querySnapshot => {
             const data = querySnapshot.docs.map(doc => doc.data());
             res = data[0]
-            alert(res);
+            // alert(res);
             this.setState({firstName: res.firstName})
             this.setState({lastName: res.lastName})
             this.setState({school: res.school})
@@ -228,19 +231,28 @@ export default class EditProfile extends React.Component{
                 <TextInput editable={false} value={this.state.email} style={{fontSize:20, color:'grey'}} onChangeText={this.handleEmail} placeholder="  Email Address"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} onChangeText={this.handleCurrentPassword}  placeholder="  Current Password"/>
+                <TextInput style={{fontSize:20, color:'grey', right:55}}  secureTextEntry={this.state.hiddenCurrentPassword} onChangeText={this.handleCurrentPassword}  placeholder="  Current Password"/>
+                <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ hiddenCurrentPassword: !this.state.hiddenCurrentPassword })}>
+                <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
+                </TouchableOpacity>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} onChangeText={this.handleNewPassword} placeholder="  New Password"/>
+                <TextInput style={{fontSize:20, color:'grey', right:65}} secureTextEntry={this.state.hiddenNewPassword} onChangeText={this.handleNewPassword} placeholder="  New Password"/>
+                <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ hiddenNewPassword: !this.state.hiddenNewPassword })}>
+                <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
+                </TouchableOpacity>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} onChangeText={this.handleConfirmNewPassword} placeholder="  Confirm New Password"/>
+                <TextInput style={{fontSize:20, color:'grey', right:40}} secureTextEntry={this.state.handleConfirmNewPassword} onChangeText={this.handleConfirmNewPassword} placeholder="  Confirm New Password"/>
+                <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ handleConfirmNewPassword: !this.state.handleConfirmNewPassword })}>
+                <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
+                </TouchableOpacity>
             </TouchableOpacity>
 
             {this.state.errorMessage!='' &&

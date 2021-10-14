@@ -21,6 +21,7 @@ import PaymentOptions from './Screens/PaymentOptions.js';
 import ScanQR from './Screens/ScanQR.js';
 import Map from './Screens/Map.js';
 import ApplePay from './Screens/ApplePay.js';
+import ApplePaySuccess from './Screens/ApplePaySuccess.js';
 
 const stackNavigator = createStackNavigator({
     HomeScreen: HomeScreen,
@@ -33,8 +34,9 @@ const stackNavigator = createStackNavigator({
     SignUp:SignUp,
     PaymentOptions: PaymentOptions,
     ScanQR : ScanQR,
-    Map : Map
-    ApplePay: ApplePay
+    Map : Map,
+    ApplePay: ApplePay,
+    ApplePaySuccess: ApplePaySuccess
   },
   {
     headerMode: 'none',

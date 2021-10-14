@@ -7,6 +7,7 @@ import UserAccount from './UserAccount.js';
 import HomeScreen from './Homepage.js';
 import { StackNavigator } from "react-navigation";
 import {firebaseApp} from '../config/firebase';
+import ScanQR from './ScanQR.js';
 
 export default class SignUp extends React.Component{
     constructor(){
@@ -68,7 +69,7 @@ export default class SignUp extends React.Component{
             zip: this.state.zip,
           }).then((res) => {
             // redirect to the profile page
-            this.props.navigation.navigate('UserAccount')
+            this.props.navigation.navigate('ScanQR', {text: this.state.email})
           })
           .catch((err) => {
             console.error("Error found: ", err);

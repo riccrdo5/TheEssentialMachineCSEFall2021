@@ -9,7 +9,7 @@ import { StackNavigator } from "react-navigation";
 
 export default class PaymentOptions extends React.Component{
     render(){
-        const text = this.props.navigation.getParam('text');
+        const amount = this.props.navigation.getParam('text');
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
           
@@ -20,7 +20,7 @@ export default class PaymentOptions extends React.Component{
             <Text style ={{fontSize:30,fontWeight:'bold',marginTop:25, textAlign:'center'}}>Amount to be paid:</Text>
 
             <View style={{marginTop:30, left:80,  height:200, width:200, borderRadius:300, backgroundColor:'white', justifyContent:'center'}}>
-                <Text style={{fontSize:50, textAlign: 'center'}}>{text}</Text>
+                <Text style={{fontSize:50, textAlign: 'center'}}>{amount}</Text>
             </View>
 
             <Text style={{paddingLeft:50, fontSize:25, fontWeight:'500', marginTop:50}}> Pay with: </Text>
@@ -36,7 +36,7 @@ export default class PaymentOptions extends React.Component{
             </View>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:40}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ApplePay')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ApplePay', {text:amount})}>
                 <Image source={require('./applepay-icon.jpeg')} style={{height:50, width:80,borderRadius:5}}/>
             </TouchableOpacity>
 

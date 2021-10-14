@@ -6,6 +6,7 @@ import UserAccount from './UserAccount.js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
+import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
 
 export default class ScanQR extends React.Component{
@@ -22,7 +23,7 @@ export default class ScanQR extends React.Component{
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <TouchableOpacity>
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{alert("Notification!")}}>
@@ -47,7 +48,7 @@ export default class ScanQR extends React.Component{
             <TouchableOpacity onPress={()=>{alert("Help!")}}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert("Map!")}}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Map')} >
             <Image source={require('./map-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount', {text: email})} >

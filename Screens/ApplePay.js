@@ -5,10 +5,13 @@ import UserAccount from './UserAccount.js';
 import PaymentOptions from './PaymentOptions.js';
 import HomeScreen from './Homepage.js'; 
 import { StackNavigator } from "react-navigation"; 
+import ApplePaySuccess from './ApplePaySuccess.js';
 
 
 export default class ApplePay extends React.Component{
 render(){
+     const amount = this.props.navigation.getParam('text');
+
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
 
@@ -25,11 +28,11 @@ render(){
                 </View>
 
                 <Text style ={{fontSize:25,fontWeight:'500',marginTop:60, left:10, textAlign:'left', paddingLeft:0, paddingRight:20}}>Pay Vending Machine</Text>
-                <Text style ={{fontSize:25,fontWeight:'500',marginTop:60, textAlign:'center', paddingLeft:0, paddingRight:20}}> $ XX</Text>
+                <Text style ={{fontSize:25,fontWeight:'500',marginTop:60, textAlign:'center', paddingLeft:0, paddingRight:20}}> {amount}</Text>
             
-            
-                <Button onPress={() => { alert('You tapped the button!');}} style={{height:80, width:200, color: 'white', left:90, marginTop:60, borderRadius:200}} title="Pay with passcode" color="#841584"/>
-            
+                <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:200, height:45, left:100, marginTop:50}} onPress={() => this.props.navigation.navigate('ApplePaySuccess', {text:amount})}>
+                    <Text style={{fontSize:22, color:"white"}}> Pay with Passcode </Text>
+                </TouchableOpacity>
             
             </View>
             
