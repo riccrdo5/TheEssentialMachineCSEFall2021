@@ -4,12 +4,48 @@ import {View, TouchableOpacity} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import Login from './LoginPage.js';
 import SignUp from './SignUp.js';
-import ApplePay from './ApplePay.js';
+import ApplePaySuccess from './ApplePaySuccess.js';
 import { StackNavigator } from "react-navigation";
+import { ApplePayButton, PaymentRequest } from 'react-native-payments';
+import { ApplePay, APayRequestDataType, APayPaymentStatusType } from 'react-native-apay'
+
+const requestData : APayRequestDataType = {
+  merchantIdentifier: 'merchant.com.example',
+  supportedNetworks: ['mastercard', 'visa'],
+  countryCode: 'US',
+  currencyCode: 'USD',
+  paymentSummaryItems: [
+    {
+      label: 'Vending Machine',
+      amount: '20.00',
+    },
+  ],
+}
 
 export default class PaymentOptions extends React.Component{
+
+    pay = (status:APayPaymentStatusType) =>{
+        if (ApplePay.canMakePayments) {
+            ApplePay.requestPayment(requestData)
+            .then((paymentData) => {
+            //   alert(paymentData);
+            // Simulate a request to the gateway
+            setTimeout(() => {
+                // Show status to user ApplePay.SUCCESS || ApplePay.FAILURE
+                ApplePay.complete(ApplePay.SUCCESS)
+                .then(() => {
+                    console.log('completed');
+                    this.props.navigation.navigate('ApplePaySuccess');
+                    // do something
+                });
+            }, 1000);
+            });
+        };
+    }
+
     render(){
         const amount = this.props.navigation.getParam('text');
+        // alert(amount)
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
           
@@ -36,9 +72,10 @@ export default class PaymentOptions extends React.Component{
             </View>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:40}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ApplePay', {text:amount})}>
+            {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ApplePayPayment', {text:amount})}>
                 <Image source={require('./applepay-icon.jpeg')} style={{height:50, width:80,borderRadius:5}}/>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <ApplePayButton type="plain" width={80} height={50} borderRadius={5} style="white" onPress={this.pay}/>
 
             <TouchableOpacity onPress={() => alert('GooglePay!!')} >
                 <Image source={require('./googlepay-icon.png')} style={{height:50, width:80, borderRadius:5}}/>

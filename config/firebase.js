@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 
 var config = {
-  apiKey: "AIzaSyBQTbXc53An-a8Uq0N9pNapM6XvqDKVfB0",
+  apiKey: "AIzaSyDN52YKXSU7wKVfsNoYI-01OWNES5ROcVg",
   authDomain: "the-essential-machine.firebaseapp.com",
   databaseURL: "https://the-essential-machine-default-rtdb.firebaseio.com",
   projectId: "the-essential-machine",
@@ -10,6 +10,6 @@ var config = {
 };
 
 export const firebaseApp = firebase.initializeApp(config);
-firebaseApp.firestore().settings({ experimentalForceLongPolling: true });
+// firebaseApp.firestore().settings({ experimentalForceLongPolling: true });
 
 
