@@ -42,7 +42,7 @@ export default class UserAccount extends React.Component{
             <TouchableOpacity onPress={()=>{alert("Help!")}}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Map')}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('PaymentOptions')}>
             <Image source={require('./map-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanQR')} >

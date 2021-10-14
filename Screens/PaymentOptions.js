@@ -4,6 +4,7 @@ import {View, TouchableOpacity} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import Login from './LoginPage.js';
 import SignUp from './SignUp.js';
+import ApplePay from './ApplePay.js';
 import { StackNavigator } from "react-navigation";
 
 export default class PaymentOptions extends React.Component{
@@ -35,7 +36,7 @@ export default class PaymentOptions extends React.Component{
             </View>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:40}}>
-            <TouchableOpacity onPress={() => alert('ApplePay!!')} >
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ApplePay')}>
                 <Image source={require('./applepay-icon.jpeg')} style={{height:50, width:80,borderRadius:5}}/>
             </TouchableOpacity>
 
