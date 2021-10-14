@@ -10,5 +10,5 @@ var config = {
 };
 
   export const firebaseApp = firebase.initializeApp(config);
-
+  firebaseApp.firestore().settings({ experimentalForceLongPolling: true });
 
