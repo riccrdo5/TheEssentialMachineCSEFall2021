@@ -10,12 +10,15 @@ import PaymentOptions from './PaymentOptions.js';
 
 export default class ScanQR extends React.Component{
 
+
     onSuccess = e => {
             this.props.navigation.navigate('PaymentOptions', {text: e.data});     
             this.scanner.reactivate();       
             };
     
     render(){
+        const email = this.props.navigation.getParam('text');
+
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
@@ -47,7 +50,7 @@ export default class ScanQR extends React.Component{
             <TouchableOpacity onPress={()=>{alert("Map!")}}>
             <Image source={require('./map-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount', {text: email})} >
             <Image source={require('./user-icon.png')} style={{height:80, width:80}} />
             </TouchableOpacity>
             </View>

@@ -3,9 +3,182 @@ import {Button, Text, Image,ImageBackground} from 'react-native-elements';
 import {View, TextInput, TouchableOpacity} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import { StackNavigator } from "react-navigation"; 
+import {firebaseApp} from '../config/firebase';
+import * as firebase from 'firebase';
 
 export default class EditProfile extends React.Component{
+
+    constructor(){
+        super();
+    }
+
+    state = {
+        email :'',
+        password: '',
+        firstName:'',
+        lastName:'',
+        school:'',
+        city:'',
+        state:'',
+        zip:'',
+        currentPassword:'',
+        newPassword:'',
+        confirmNewPassword:'',
+        passwordChangeNeeded: false,
+        errorMessage:'',
+        successMessage:''
+    }
+
+    fetchUserData = () =>{
+        const response = firebaseApp.firestore().collection('users')
+        .where("email","==", this.state.email)
+        .get()
+        .then(querySnapshot => {
+            const data = querySnapshot.docs.map(doc => doc.data());
+            res = data[0]
+            alert(res);
+            this.setState({firstName: res.firstName})
+            this.setState({lastName: res.lastName})
+            this.setState({school: res.school})
+            this.setState({city: res.city})
+            this.setState({state: res.state})
+            this.setState({zip: res.zip})
+        });
+    }
+
+    handleEmail = (text) => {
+        this.setState({ email: text })
+     }
+     handlePassword = (text) => {
+        this.setState({ password: text })
+        this.setState({passwordChangeNeeded: true})
+     }
+     handleFirstName = (text) => {
+        this.setState({ firstName: text })
+     }   
+      handleLastName = (text) => {
+        this.setState({ lastName: text })
+     }
+     handleSchool= (text) => {
+        this.setState({ school: text })
+     }   
+      handleCity = (text) => {
+        this.setState({ city: text })
+     }
+     handleState = (text) => {
+        this.setState({ state: text })
+     }   
+      handleZip = (text) => {
+        this.setState({ zip: text })
+     }
+
+     handleCurrentPassword = (text) =>{
+         this.setState({currentPassword: text})
+         this.setState({passwordChangeNeeded: true})
+     }
+    
+     handleNewPassword = (text) =>{
+         this.setState({newPassword: text})
+     }
+      handleConfirmNewPassword = (text) =>{
+         this.setState({confirmNewPassword: text})
+         this.setState({passwordChangeNeeded: true})
+     }
+
+    reauthenticate = (password) =>{
+        var user = firebase.auth().currentUser;
+        var cred = firebase.auth.EmailAuthProvider.credential(user.email, password)
+        return user.reauthenticateWithCredential(cred)
+    }
+    
+    changePassword = (user) =>{
+        this.setState({ error: false })
+        alert('Entered');
+        this.reauthenticate(this.state.currentPassword).then(()=>{
+            alert('yay!');
+            firebase.auth().currentUser.updatePassword(this.state.newPassword).then(()=>
+            {
+                this.setState({successMessage:'Changes saved successfully!'})
+                this.timeoutHandle = setTimeout(()=>{
+                        this.props.navigation.navigate('UserAccount')
+                }, 1000); 
+            })
+            .catch(error => this.setState({ errorMessage: error.message }));
+        }).catch(error => this.setState({ errorMessage: error.message }));
+    }
+
+    updateChanges = () => {
+        this.setState({ error: false })
+
+        if (this.state.firstName == ''){
+            this.setState({ errorMessage: 'Please enter your first name' });
+        } else if (this.state.lastName == ''){
+            this.setState({ errorMessage: 'Please enter your last name' });
+        }else if (this.state.state == ''){
+            this.setState({ errorMessage: 'Please enter your state' });
+        } else if (this.state.city == ''){
+            this.setState({ errorMessage: 'Please enter your city' });
+        }else if (this.state.zip == ''){
+            this.setState({ errorMessage: 'Please enter your zip code' });
+        }else if (this.state.school == ''){
+            this.setState({ errorMessage: 'Please enter your school' });
+        }else{ 
+            if(this.state.passwordChangeNeeded==true){
+                if(this.state.currentPassword==''){
+                    this.setState({ errorMessage: 'Please enter the current Password' });
+                }else if(this.state.newPassword==''){
+                    this.setState({ errorMessage: 'Please enter the new Password' });
+                }else if(this.state.confirmNewPassword==''){
+                    this.setState({ errorMessage: 'Please confirm the new Password' });
+                }else if (this.state.newPassword !== this.state.confirmNewPassword) {
+                    this.setState({ errorMessage: 'Passwords does not match' });
+                }else{
+                    var user = firebase.auth().currentUser;
+                    var uid = user.uid;
+
+                    firebaseApp.firestore().collection('users').doc(uid).update({
+                        firstName: this.state.firstName,
+                        lastName: this.state.lastName,
+                        school: this.state.school,
+                        email: this.state.email,
+                        city: this.state.city,
+                        state: this.state.state,
+                        zip: this.state.zip,
+                    }).then(()=>{
+                        if(this.state.passwordChangeNeeded==true){
+                            this.changePassword();
+                        }
+                    });
+                }
+            }else{
+                var user = firebase.auth().currentUser;
+                var uid = user.uid;
+
+                firebaseApp.firestore().collection('users').doc(uid).update({
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    school: this.state.school,
+                    email: this.state.email,
+                    city: this.state.city,
+                    state: this.state.state,
+                    zip: this.state.zip,
+                }).then(()=>{
+                    this.setState({successMessage:'Changes saved successfully!'})
+                    this.timeoutHandle = setTimeout(()=>{
+                        this.props.navigation.navigate('UserAccount')
+                    }, 1000); 
+            });
+        }
+    }
+    }
+
+    componentDidMount() {
+        this.fetchUserData()
+    }
+
     render(){
+        const email = this.props.navigation.getParam('text');
+        this.state.email = email
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
 
@@ -13,7 +186,7 @@ export default class EditProfile extends React.Component{
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
             <Image source={require('./cross-icon.png')} style={{height:50, width:50,marginTop:60}}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
+            <TouchableOpacity onPress={()=> this.updateChanges()} >
             <Image source={require('./tick-icon.png')} style={{height:50, width:50,marginTop:60}} />
             </TouchableOpacity>
             </View>
@@ -22,54 +195,60 @@ export default class EditProfile extends React.Component{
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:15 }}> 
                 <Image source={require('./name-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  First Name"/>
+                <TextInput value={this.state.firstName} style={{fontSize:20, color:'grey'}} placeholder="  First Name" onChangeText={this.handleFirstName} />
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./name-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  Last Name"/>
+                <TextInput value={this.state.lastName} style={{fontSize:20, color:'grey'}} onChangeText={this.handleLastName} placeholder="  Last Name"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./school-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  School"/>
+                <TextInput value={this.state.school} style={{fontSize:20, color:'grey'}} onChangeText={this.handleSchool} placeholder="  School"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./city-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  City"/>
+                <TextInput value={this.state.city} style={{fontSize:20, color:'grey'}} onChangeText={this.handleCity} placeholder="  City"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./city-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  State"/>
+                <TextInput value={this.state.state} style={{fontSize:20, color:'grey'}} onChangeText={this.handleState} placeholder="  State"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./map-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  ZipCode"/>
+                <TextInput value={this.state.zip} style={{fontSize:20, color:'grey'}} onChangeText={this.handleZip} placeholder="  ZipCode"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} onPress={()=>{alert("You cannot edit the email address")}}>
                 <Image source={require('./email-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  Email Address"/>
+                <TextInput editable={false} value={this.state.email} style={{fontSize:20, color:'grey'}} onChangeText={this.handleEmail} placeholder="  Email Address"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  Current Password"/>
+                <TextInput style={{fontSize:20, color:'grey'}} onChangeText={this.handleCurrentPassword}  placeholder="  Current Password"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  New Password"/>
+                <TextInput style={{fontSize:20, color:'grey'}} onChangeText={this.handleNewPassword} placeholder="  New Password"/>
             </TouchableOpacity>
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey'}} placeholder="  Confirm New Password"/>
+                <TextInput style={{fontSize:20, color:'grey'}} onChangeText={this.handleConfirmNewPassword} placeholder="  Confirm New Password"/>
             </TouchableOpacity>
 
+            {this.state.errorMessage!='' &&
+            <Text style={{color: '#ff0000',fontSize: 18,textAlign:'center', fontWeight: '600'}}> {this.state.errorMessage} </Text>}
+
+             {this.state.successMessage!='' &&
+            <Text style={{color: '#57f416',fontSize: 18,textAlign:'center', fontWeight: '600'}}> {this.state.successMessage} </Text>}
+            
             <TouchableOpacity onPress={()=>{alert("Help!")}}>
             <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:30 }} />
             </TouchableOpacity>

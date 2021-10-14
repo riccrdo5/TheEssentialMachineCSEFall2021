@@ -5,9 +5,12 @@ import HomeScreen from './Homepage.js';
 import EditProfile from './EditProfile.js';
 import Receipts from './Receipts.js';
 import ScanQR from './ScanQR.js';
+import Map from './Map.js';
 
 export default class UserAccount extends React.Component{
     render(){
+        const email = this.props.navigation.getParam('text');
+        
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
@@ -21,8 +24,8 @@ export default class UserAccount extends React.Component{
 
             <Image source={require('./user-icon.png')} style={{height:200, width:200, left:100, marginTop:50}} />
 
-            <TouchableOpacity style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:100, paddingRight:120, paddingTop:20}} onPress={()=> this.props.navigation.navigate('EditProfile')}>
-            <Text style={{fontSize:25, textAlign:'center'}}> Email Address </Text>
+            <TouchableOpacity style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:100, paddingRight:120, paddingTop:20}} onPress={()=> this.props.navigation.navigate('EditProfile', {text: email})}>
+            <Text style={{fontSize:18, textAlign:'center'}}>{email}</Text>
             <Image source={require('./edit-icon.png')} style={{height:30, width:30}} />
             </TouchableOpacity>
 
@@ -39,7 +42,7 @@ export default class UserAccount extends React.Component{
             <TouchableOpacity onPress={()=>{alert("Help!")}}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert("Map!")}}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Map')}>
             <Image source={require('./map-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanQR')} >

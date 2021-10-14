@@ -19,6 +19,7 @@ import ResetPasswordSuccess from './Screens/ResetPasswordSuccess.js';
 import SignUp from './Screens/SignUp.js';
 import PaymentOptions from './Screens/PaymentOptions.js';
 import ScanQR from './Screens/ScanQR.js';
+import Map from './Screens/Map.js';
 
 const stackNavigator = createStackNavigator({
     HomeScreen: HomeScreen,
@@ -30,7 +31,8 @@ const stackNavigator = createStackNavigator({
     ResetPasswordSuccess: ResetPasswordSuccess,
     SignUp:SignUp,
     PaymentOptions: PaymentOptions,
-    ScanQR : ScanQR
+    ScanQR : ScanQR,
+    Map : Map
   },
   {
     headerMode: 'none',

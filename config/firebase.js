@@ -9,6 +9,7 @@ var config = {
   messagingSenderId: "944367937162"
 };
 
-  export const firebaseApp = firebase.initializeApp(config);
-  firebaseApp.firestore().settings({ experimentalForceLongPolling: true });
+export const firebaseApp = firebase.initializeApp(config);
+firebaseApp.firestore().settings({ experimentalForceLongPolling: true });
+
 

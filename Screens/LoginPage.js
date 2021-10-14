@@ -33,7 +33,7 @@ export default class Login extends React.Component{
         this.setState({ error: false })
         firebaseApp.auth().signInWithEmailAndPassword(email,pass)
             .then(()=>
-                this.props.navigation.navigate('ScanQR')
+                this.props.navigation.navigate('ScanQR', {text: email})
             ) 
         .catch(error => this.setState({ errorMessage: error.message }));
     }
