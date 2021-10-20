@@ -22,6 +22,8 @@ import ScanQR from './Screens/ScanQR.js';
 import Map from './Screens/Map.js';
 import ApplePay from './Screens/ApplePay.js';
 import ApplePaySuccess from './Screens/ApplePaySuccess.js';
+import BitcoinPay from './Screens/bitcoin-pay';
+import BitcoinPaySuccess from './Screens/bitcoin-pay-success';
 
 const stackNavigator = createStackNavigator({
     HomeScreen: HomeScreen,
@@ -36,7 +38,10 @@ const stackNavigator = createStackNavigator({
     ScanQR : ScanQR,
     Map : Map,
     ApplePay: ApplePay,
-    ApplePaySuccess: ApplePaySuccess
+    ApplePaySuccess: ApplePaySuccess,
+    BitcoinPay: BitcoinPay,
+    BitcoinPaySuccess: BitcoinPaySuccess,
+
   },
   {
     headerMode: 'none',
