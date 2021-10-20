@@ -13,7 +13,7 @@ render(){
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
 
-            <View style={{marginTop:200, left:3,  height:400, width:385, borderRadius:50, borderWidth: 2, borderColor: "black",
+            <View style={{marginTop:200, left:3,  height:420, width:385, borderRadius:50, borderWidth: 2, borderColor: "black",
                 backgroundColor:'white'}}>
 
                 <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:20, paddingRight:20}}>
@@ -34,7 +34,10 @@ render(){
                     placeholderTextColor="black"/>
                 </TouchableOpacity>
                 
-            
+                <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:120, height:35, left:120, marginTop:20}} onPress={()=> this.props.navigation.navigate('BitcoinPaySuccess')}>
+                    <Text style={{fontSize:18, fontWeight:"bold", color:"white"}}> Continue </Text>
+                </TouchableOpacity>
+
             </View>
             
 
