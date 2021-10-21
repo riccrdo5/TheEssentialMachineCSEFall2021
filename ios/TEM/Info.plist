@@ -38,7 +38,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>To Scan the QR Code</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>To locate the nearest vending machines</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
