@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0075ACD62720B2EB0086F8D8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0075ACD52720B2EB0086F8D8 /* MapKit.framework */; };
+		0075ACD92720F75F0086F8D8 /* TEMTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 00E356EE1AD99517003FC87E /* TEMTests.xctest */; };
+		0075ACDA2720F7E70086F8D8 /* libPods-TEM-TEMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212C6FA738831D24E8ACA65 /* libPods-TEM-TEMTests.a */; };
 		00E356F31AD99517003FC87E /* TEMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TEMTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		972AED56562C83A23C512A17 /* libPods-TEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F271EECF7B53998798FE6F /* libPods-TEM.a */; };
-		D1640AE7F162B682430DFD0A /* libPods-TEM-TEMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212C6FA738831D24E8ACA65 /* libPods-TEM-TEMTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1640AE7F162B682430DFD0A /* libPods-TEM-TEMTests.a in Frameworks */,
+				0075ACDA2720F7E70086F8D8 /* libPods-TEM-TEMTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0075ACD92720F75F0086F8D8 /* TEMTests.xctest in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
