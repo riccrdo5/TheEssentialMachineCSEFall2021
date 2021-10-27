@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';
-import {StyleSheet,StatusBar,View, TextInput, TouchableOpacity,SafeAreaView, ScrollView,} from 'react-native';
+import {StyleSheet,StatusBar,View, TextInput, TouchableOpacity,SafeAreaView, ScrollView, AsyncStorage} from 'react-native';
 import UserAccount from './UserAccount.js';
 import HomeScreen from './Homepage.js';
 import { StackNavigator } from "react-navigation";
@@ -67,8 +67,9 @@ export default class SignUp extends React.Component{
             city: this.state.city,
             state: this.state.state,
             zip: this.state.zip,
-          }).then((res) => {
-            // redirect to the profile page
+          }).then(async(res) => {
+            await AsyncStorage.setItem('isLoggedIn', '1');
+            await AsyncStorage.setItem('UserEmail', JSON.stringify(this.state.email));
             this.props.navigation.navigate('ScanQR', {text: this.state.email})
           })
           .catch((err) => {

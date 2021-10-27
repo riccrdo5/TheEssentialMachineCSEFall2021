@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Text, Image,ImageBackground} from 'react-native-elements';  
-import {View,Button,TouchableOpacity} from 'react-native';
+import {View,Button,TouchableOpacity, AsyncStorage} from 'react-native';
 import HomeScreen from './Homepage.js'; 
 import EditProfile from './EditProfile.js';
 import Receipts from './Receipts.js';
@@ -8,8 +8,34 @@ import ScanQR from './ScanQR.js';
 import Map from './Map.js';
 
 export default class UserAccount extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            email : ''
+        }
+    }
+
+    handleLogOut = async() => {
+        await AsyncStorage.clear();
+        this.props.navigation.navigate('HomeScreen')
+    }
+
+    handleEmptyEmail = async() => {
+        let user = await AsyncStorage.getItem('UserEmail');  
+        user = user.slice(1, -1);
+        this.setState({ email: user })
+    }
+
+    componentDidMount() {
+        const text = this.props.navigation.getParam('text');
+        this.setState({ email: text })
+        if(text == null){
+            this.handleEmptyEmail()
+        }
+    }
+
     render(){
-        const email = this.props.navigation.getParam('text');
         
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
@@ -24,8 +50,8 @@ export default class UserAccount extends React.Component{
 
             <Image source={require('./user-icon.png')} style={{height:200, width:200, left:100, marginTop:50}} />
 
-            <TouchableOpacity style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:100, paddingRight:120, paddingTop:20}} onPress={()=> this.props.navigation.navigate('EditProfile', {text: email})}>
-            <Text style={{fontSize:18, textAlign:'center'}}>{email}</Text>
+            <TouchableOpacity style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:100, paddingRight:120, paddingTop:20}} onPress={()=> this.props.navigation.navigate('EditProfile', {text: this.state.email})}>
+            <Text style={{fontSize:18, textAlign:'center'}}>{this.state.email}</Text>
             <Image source={require('./edit-icon.png')} style={{height:30, width:30}} />
             </TouchableOpacity>
 
@@ -33,7 +59,7 @@ export default class UserAccount extends React.Component{
             <Text style={{fontSize:22, fontWeight:"bold", color:"black"}}> RECEIPTS </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:150, left:120, borderRadius:10, marginTop:50}} onPress={()=> this.props.navigation.navigate('HomeScreen')}> 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:150, left:120, borderRadius:10, marginTop:50}} onPress={()=> this.handleLogOut()}> 
                 <Image source={require('./logout-icon.png')} style={{height:30, width:30}} />
                 <Text style={{fontSize:20,fontWeight:"bold", color:'black'}}> LOGOUT </Text>
             </TouchableOpacity>

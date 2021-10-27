@@ -7,8 +7,9 @@
  */
 import 'react-native-gesture-handler';
 import React from 'react';  
+import {View, ActivityIndicator, StatusBar, AsyncStorage} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import HomeScreen from './Screens/Homepage.js'; 
 import Login from './Screens/LoginPage.js'; 
 import UserAccount from './Screens/UserAccount.js'; 
@@ -20,14 +21,13 @@ import SignUp from './Screens/SignUp.js';
 import PaymentOptions from './Screens/PaymentOptions.js';
 import ScanQR from './Screens/ScanQR.js';
 import Map from './Screens/Map.js';
-// import ApplePay from './Screens/ApplePay.js';
 import ApplePaySuccess from './Screens/ApplePaySuccess.js';
 import BitcoinPay from './Screens/bitcoin-pay';
 import BitcoinPaySuccess from './Screens/bitcoin-pay-success';
-// import ApplePayPayment from './Screens/ApplePay.js';
 
 const stackNavigator = createStackNavigator({
-    HomeScreen: HomeScreen,
+    // HomeScreen: HomeScreen,
+    ScanQR : ScanQR,
     UserAccount: UserAccount,
     EditProfile: EditProfile,
     Receipts: Receipts,
@@ -36,18 +36,52 @@ const stackNavigator = createStackNavigator({
     ResetPasswordSuccess: ResetPasswordSuccess,
     SignUp:SignUp,
     PaymentOptions: PaymentOptions,
-    ScanQR : ScanQR,
     Map : Map,
     ApplePaySuccess: ApplePaySuccess,
     BitcoinPay: BitcoinPay,
     BitcoinPaySuccess: BitcoinPaySuccess,
 
-    // ApplePayPayment: ApplePayPayment
   },
   {
     headerMode: 'none',
   });
 
-const App = createAppContainer(stackNavigator);
+const AuthStack = createStackNavigator(
+  {
+    HomeScreen : HomeScreen
+  },
+  {
+    headerMode: 'none',
+  }
+);
 
-export default App;
+class AuthLoadingScreen extends React.Component{
+  constructor(props){
+    super(props)
+    this.loadData()
+  }
+
+  render(){
+    return(
+       <View style={{flex:1, backgroundColor:"#46B2E0"}}>
+        <ActivityIndicator/>
+        <StatusBar barStyle="default"/>
+      </View>
+    );
+  }
+
+  loadData = async() => {
+    const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+    this.props.navigation.navigate(isLoggedIn!=='1'?'Auth':'App');
+  }
+} 
+export default createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading : AuthLoadingScreen,
+    App : stackNavigator,
+    Auth : AuthStack
+  },
+  {
+    initialRouteName : 'AuthLoading'
+  }
+));

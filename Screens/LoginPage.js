@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {View, TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import { StackNavigator } from "react-navigation";
 import HomeScreen from './Homepage.js'; 
@@ -32,8 +32,11 @@ export default class Login extends React.Component{
     handleSignIn = (email, pass) => {
         this.setState({ error: false })
         firebaseApp.auth().signInWithEmailAndPassword(email,pass)
-            .then(()=>
+            .then(async()=>{
+                await AsyncStorage.setItem('isLoggedIn', '1');
+                await AsyncStorage.setItem('UserEmail', email);
                 this.props.navigation.navigate('ScanQR', {text: email})
+            }
             ) 
         .catch(error => this.setState({ errorMessage: error.message }));
     }
