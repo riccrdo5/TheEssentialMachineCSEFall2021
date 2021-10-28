@@ -10,14 +10,14 @@ import { ApplePayButton, PaymentRequest } from 'react-native-payments';
 import { ApplePay, APayRequestDataType, APayPaymentStatusType } from 'react-native-apay'
 
 const requestData : APayRequestDataType = {
-  merchantIdentifier: 'merchant.com.example',
+  merchantIdentifier: 'merchant.com.tem',
   supportedNetworks: ['mastercard', 'visa'],
   countryCode: 'US',
   currencyCode: 'USD',
   paymentSummaryItems: [
     {
       label: 'Vending Machine',
-      amount: '20.00',
+      amount: '0.01',
     },
   ],
 }
@@ -28,7 +28,6 @@ export default class PaymentOptions extends React.Component{
         if (ApplePay.canMakePayments) {
             ApplePay.requestPayment(requestData)
             .then((paymentData) => {
-            //   alert(paymentData);
             // Simulate a request to the gateway
             setTimeout(() => {
                 // Show status to user ApplePay.SUCCESS || ApplePay.FAILURE

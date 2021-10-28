@@ -55,7 +55,7 @@ export default class UserAccount extends React.Component{
             <Image source={require('./edit-icon.png')} style={{height:30, width:30}} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={{backgroundColor:"white", padding:8, borderRadius:10,  alignItems:"center",width:150, height:45, left:120, marginTop:50}} onPress={()=> this.props.navigation.navigate('Receipts')}>
+            <TouchableOpacity style={{backgroundColor:"white", padding:8, borderRadius:10,  alignItems:"center",width:150, height:45, left:120, marginTop:50}} onPress={()=> this.props.navigation.navigate('Receipts', {text: email})}>
             <Text style={{fontSize:22, fontWeight:"bold", color:"black"}}> RECEIPTS </Text>
             </TouchableOpacity>
 
