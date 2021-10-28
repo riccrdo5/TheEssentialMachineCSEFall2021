@@ -81,14 +81,15 @@ export default class Map extends React.Component{
                      showsCompass={true}
             >
 
-            {this.state.markers.map(marker => (
+            {this.state.markers.map((marker,i) => (
                 <MapView.Marker 
+                key={i}
                 coordinate={{latitude: marker.latitude, longitude: marker.longitude}}>
                 <Callout tooltip={true} onPress={() =>{this.markerClick(marker.latitude, marker.longitude)}}>
                     <Text style={{fontSize:20}}>{marker.title} </Text>
-                    <View>
+                    {/* <View>
                         <Image source={navigatePicture} style={{height:50, width:50}} />
-                    </View>
+                    </View> */}
                 </Callout>
                 </MapView.Marker>
             ))}
