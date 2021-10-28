@@ -55,6 +55,11 @@ export default class ForgotPassword extends React.Component{
             <Text style={{fontSize:20, fontWeight:"bold", color:"white"}}> RESET PASSWORD </Text>
             </TouchableOpacity>
 
+            {this.state.errorMessage &&
+                <Text style={{color: '#ff0000',fontSize: 18,textAlign:'center',marginTop: 10, fontWeight: '600'}}>
+                            {this.state.errorMessage}
+                </Text>}
+
             </View>
         </>
     }
