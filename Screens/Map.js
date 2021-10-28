@@ -6,21 +6,30 @@ import HomeScreen from './Homepage.js';
 import EditProfile from './EditProfile.js';
 import Receipts from './Receipts.js';
 import ScanQR from './ScanQR.js';
-
+import * as firebase from 'firebase';
+import * as Animatable from 'react-native-animatable';
+import {firebaseApp} from '../config/firebase';
+import navigatePicture from './navigate-icon.png';
 import UserAccount from './UserAccount.js';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
-
 
 export default class Map extends React.Component{
     constructor(props) {
         super(props);
+
+        this.state = {
+            markers : []
+        }
     }
 
-    markerClick =  (marker) => {
-        // alert(marker)
-        const mark = JSON.parse(marker);
-        const lat = mark.coordinate.latitude
-        const long = mark.coordinate.longitude
+    loadVendingMachineLocationData = () => {
+        firebaseApp.database().ref("machines/").on("value", snapshot =>{
+            let responseList = Object.values(snapshot.val())
+            this.setState({markers : responseList})
+        });
+    }
+
+    markerClick =  (lat, long) => {
         const scheme = 'https://www.google.com/maps/dir/?api=1&travelmode=walking&dir_action=navigate&destination='
         const latLng = `${lat},${long}`;
         const url =  `${scheme}${latLng}`
@@ -29,10 +38,18 @@ export default class Map extends React.Component{
         if (!supported) {
             console.log('Can\'t handle url: ' + url);
         } else {
-            return Linking.openURL(url);
+            Linking.openURL(url);
         }
         }).catch(err => console.error('An error occurred', err)); 
     };              
+
+    componentDidMount(){
+        this.loadVendingMachineLocationData()
+    }     
+
+    componentWillUnmount(){
+        this.props.navigation.navigate('Map')
+    }
 
     render(){
         const email = this.props.navigation.getParam('text');
@@ -47,35 +64,34 @@ export default class Map extends React.Component{
             <Image source={require('./notification-icon.png')} style={{height:50, width:50,marginTop:70}} />
             </TouchableOpacity>
             </View>
-
+   
             <MapView
             style={{height:'50%', width:'90%', left:20, marginTop:70}}
             provider ={PROVIDER_GOOGLE}
             region={{
                 latitude: 42.880230,
                 longitude: 	-78.878738,
-                latitudeDelta: 0.01,
-                longitudeDelta:0.01
+                latitudeDelta: 0.09,
+                longitudeDelta:0.09
             }}
             showsUserLocation={true} 
+            moveOnMarkerPress = {false}
             showsMyLocationButton = {true}
+            toolbarEnabled = {true}
+                     showsCompass={true}
             >
-                <Marker 
-                    coordinate={{latitude: 43.044971, longitude: -78.761482}} 
-                    onPress= {e => this.markerClick(JSON.stringify(e.nativeEvent))}
-                    title={'Student Union'}>
-                </Marker>
-                <Marker 
-                    coordinate={{latitude: 43.027150, longitude: -78.806470}}
-                    title={'Capen Hall'}
-                    onPress={e => this.markerClick(JSON.stringify(e.nativeEvent))}>
-                </Marker>
-                 <Marker 
-                    coordinate={{latitude: 43.004560, longitude: -78.785910}}
-                    title={'Ellicot Complex'}
-                    onPress={e => this.markerClick(JSON.stringify(e.nativeEvent))}>
-                </Marker>
 
+            {this.state.markers.map(marker => (
+                <MapView.Marker 
+                coordinate={{latitude: marker.latitude, longitude: marker.longitude}}>
+                <Callout tooltip={true} onPress={() =>{this.markerClick(marker.latitude, marker.longitude)}}>
+                    <Text style={{fontSize:20}}>{marker.title} </Text>
+                    <View>
+                        <Image source={navigatePicture} style={{height:50, width:50}} />
+                    </View>
+                </Callout>
+                </MapView.Marker>
+            ))}
             </MapView>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:25, paddingRight:25, marginTop:80}}>
