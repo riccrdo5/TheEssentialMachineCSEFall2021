@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';
 import {StyleSheet,StatusBar,View, TextInput, TouchableOpacity,SafeAreaView, ScrollView, AsyncStorage} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import UserAccount from './UserAccount.js';
 import HomeScreen from './Homepage.js';
 import { StackNavigator } from "react-navigation";
@@ -107,10 +108,10 @@ export default class SignUp extends React.Component{
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollView}>
+            <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
 
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('HomeScreen')} >
-            <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:40, left:20}}/>
+            <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:40}}/>
             </TouchableOpacity>
 
             <Text style={{fontSize:30, color:'white', fontWeight:'bold', textAlign:'center'}}> SIGN UP </Text>
@@ -162,7 +163,6 @@ export default class SignUp extends React.Component{
                 placeholderTextColor="black"
                 keyboardType='email-address'
                 textContentType='emailAddress'
-                autoFocus={true}
                 onChangeText = {this.handleEmail}/>
             </TouchableOpacity>
 
@@ -186,7 +186,7 @@ export default class SignUp extends React.Component{
                 <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
                 </TouchableOpacity>
             </TouchableOpacity>
-            </ScrollView>
+            </KeyboardAwareScrollView>
             </SafeAreaView>
             
             <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:250, left:80, top:0}}
@@ -210,11 +210,12 @@ export default class SignUp extends React.Component{
 };
 const styles = StyleSheet.create({
     container: {
-      flex: 0.95,
+      flex: 1,
       paddingTop: StatusBar.currentHeight,
     },
     scrollView: {
       marginHorizontal: 20,
+      flexGrow : 1
     },
     text: {
       fontSize: 42,
