@@ -6,42 +6,36 @@ import PaymentOptions from './PaymentOptions.js';
 import HomeScreen from './Homepage.js'; 
 import { StackNavigator } from "react-navigation"; 
 import BitcoinPaySuccess from './bitcoin-pay-success';
+import{WebView} from 'react-native-webview'
 
 export default class BitcoinPay extends React.Component{
-render(){
-     const amount = this.props.navigation.getParam('text');
-        return<>
-            <View style={{flex:1, backgroundColor:"#46B2E0"}}>
+    constructor(props) {
+        super(props);
+        this.state = { urlVal: ""};
+    }
+    componentDidMount() {
+        const amount = this.props.navigation.getParam('text');
+        let formData = new FormData();
+        formData.append('storeId', '2qwRZJGfsxMjukdxbfecDABbyc3dUiW2gxFuFQ27yeQa');
+        formData.append('price', amount);
+        formData.append('currency', 'USD');
 
-            <View style={{marginTop:200, left:3,  height:420, width:385, borderRadius:50, borderWidth: 2, borderColor: "black",
-                backgroundColor:'white'}}>
+        fetch('https://btcpayjungle.com/api/v1/invoices', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            body: formData  
+        
+          }).then( (response) => this.setState({urlVal : response.url}) ) 
+        .catch(function (error) { console.log("@@@@@"+error);})
+    }
 
-                <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:20, paddingRight:20}}>
-                <Image source={require('./btcpay.png')} style={{left:-70, marginTop: 20, height:50, width:280, right: 100}}/>
-
-                    <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
-                        <Image source={require('./close-icon.png')} style={{marginTop: 20, height:50, width:25}} />
-                    </TouchableOpacity>
-                </View>
-                <Text style ={{fontSize:15,fontWeight:'500',marginTop:30, left:10, textAlign:'center', paddingLeft:0, paddingRight:20}}>Awaiting Payment...</Text>
-
-                <Text style ={{fontSize:28,fontWeight:'500',marginTop:40, left:10, textAlign:'center', paddingLeft:0, paddingRight:20}}>{amount} USD ~ 0.00015708 BTC</Text>
-
-                <Text style ={{fontSize:25,fontWeight:'500',marginTop:60, left:10, textAlign:'center', paddingLeft:0, paddingRight:20}}>Address</Text>
-                
-                <TouchableOpacity style={{flexDirection:"row", backgroundColor:"#dae0df", alignItems:"center", padding:8, width:300, left:50, borderRadius:20, marginTop:20 }} >
-                    <TextInput autoCapitalize='none' editable={false} selectable={true} style={{fontSize:15, color:'grey'}} placeholder="bc1ql0txrs7zdcczz23gncmvmaasawv"
-                    placeholderTextColor="black"/>
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:120, height:35, left:120, marginTop:20}} onPress={()=> this.props.navigation.navigate('BitcoinPaySuccess')}>
-                    <Text style={{fontSize:18, fontWeight:"bold", color:"white"}}> Continue </Text>
-                </TouchableOpacity>
-
-            </View>
-            
-
-            </View>
-            </>
+    render(){
+        return <WebView
+        source ={{uri: this.state.urlVal}}
+        //        source ={{uri: 'https://btcpayjungle.com/api/v1/invoices?storeId=2qwRZJGfsxMjukdxbfecDABbyc3dUiW2gxFuFQ27yeQa&price=10&currency=USD'}}
+        onError={(event) => alert(`Webview error ${event.nativeEvent.description}`)}
+        />
         }
 };
