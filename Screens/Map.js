@@ -45,11 +45,7 @@ export default class Map extends React.Component{
 
     componentDidMount(){
         this.loadVendingMachineLocationData()
-    }     
-
-    componentWillUnmount(){
-        this.props.navigation.navigate('Map')
-    }
+    }    
 
     render(){
         const email = this.props.navigation.getParam('text');
@@ -68,17 +64,15 @@ export default class Map extends React.Component{
             <MapView
             style={{height:'50%', width:'90%', left:20, marginTop:70}}
             provider ={PROVIDER_GOOGLE}
-            region={{
+            initialRegion={{
                 latitude: 42.880230,
                 longitude: 	-78.878738,
-                latitudeDelta: 0.09,
-                longitudeDelta:0.09
+                latitudeDelta: 0.01,
+                longitudeDelta:0.01
             }}
             showsUserLocation={true} 
-            moveOnMarkerPress = {false}
             showsMyLocationButton = {true}
             toolbarEnabled = {true}
-                     showsCompass={true}
             >
 
             {this.state.markers.map((marker,i) => (
@@ -87,6 +81,7 @@ export default class Map extends React.Component{
                 coordinate={{latitude: marker.latitude, longitude: marker.longitude}}>
                 <Callout tooltip={true} onPress={() =>{this.markerClick(marker.latitude, marker.longitude)}}>
                     <Text style={{fontSize:20}}>{marker.title} </Text>
+                    <Text style={{fontSize:18, textAlign:"center"}}> navigate! </Text>
                     {/* <View>
                         <Image source={navigatePicture} style={{height:50, width:50}} />
                     </View> */}
