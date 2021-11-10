@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		0075ACD62720B2EB0086F8D8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0075ACD52720B2EB0086F8D8 /* MapKit.framework */; };
 		0075ACD92720F75F0086F8D8 /* TEMTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 00E356EE1AD99517003FC87E /* TEMTests.xctest */; };
-		0075ACDA2720F7E70086F8D8 /* libPods-TEM-TEMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212C6FA738831D24E8ACA65 /* libPods-TEM-TEMTests.a */; };
 		00E356F31AD99517003FC87E /* TEMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TEMTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		972AED56562C83A23C512A17 /* libPods-TEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F271EECF7B53998798FE6F /* libPods-TEM.a */; };
+		ED34DA94C42653C58C535AED /* libPods-TEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA8B4B0E4E42D66A13DD6151 /* libPods-TEM.a */; };
+		F4A288A4DB5CCAFA7B91294B /* libPods-TEM-TEMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3224427CE516E908C4ACE5AD /* libPods-TEM-TEMTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,13 +40,13 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TEM/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TEM/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TEM/main.m; sourceTree = "<group>"; };
-		36F4E5C0BED4874BFF9F809C /* Pods-TEM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM.release.xcconfig"; path = "Target Support Files/Pods-TEM/Pods-TEM.release.xcconfig"; sourceTree = "<group>"; };
-		46F271EECF7B53998798FE6F /* libPods-TEM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TEM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3224427CE516E908C4ACE5AD /* libPods-TEM-TEMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TEM-TEMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DD701FB097A534CB5C88B83 /* Pods-TEM-TEMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM-TEMTests.release.xcconfig"; path = "Target Support Files/Pods-TEM-TEMTests/Pods-TEM-TEMTests.release.xcconfig"; sourceTree = "<group>"; };
+		7DEE87ACF2FC10D3E6D4C961 /* Pods-TEM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM.debug.xcconfig"; path = "Target Support Files/Pods-TEM/Pods-TEM.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = TEM/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8212C6FA738831D24E8ACA65 /* libPods-TEM-TEMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TEM-TEMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		88EA6EA5AB7C67387D6CAE74 /* Pods-TEM-TEMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM-TEMTests.debug.xcconfig"; path = "Target Support Files/Pods-TEM-TEMTests/Pods-TEM-TEMTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9816E04AC2012FC4B9CADAD2 /* Pods-TEM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM.debug.xcconfig"; path = "Target Support Files/Pods-TEM/Pods-TEM.debug.xcconfig"; sourceTree = "<group>"; };
-		E15B924ACC0DCBC02BD91E02 /* Pods-TEM-TEMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM-TEMTests.release.xcconfig"; path = "Target Support Files/Pods-TEM-TEMTests/Pods-TEM-TEMTests.release.xcconfig"; sourceTree = "<group>"; };
+		87C76072C1557CF2BA90966A /* Pods-TEM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM.release.xcconfig"; path = "Target Support Files/Pods-TEM/Pods-TEM.release.xcconfig"; sourceTree = "<group>"; };
+		977D509BB6CB86FA903F82EC /* Pods-TEM-TEMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TEM-TEMTests.debug.xcconfig"; path = "Target Support Files/Pods-TEM-TEMTests/Pods-TEM-TEMTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DA8B4B0E4E42D66A13DD6151 /* libPods-TEM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TEM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0075ACDA2720F7E70086F8D8 /* libPods-TEM-TEMTests.a in Frameworks */,
+				F4A288A4DB5CCAFA7B91294B /* libPods-TEM-TEMTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0075ACD62720B2EB0086F8D8 /* MapKit.framework in Frameworks */,
-				972AED56562C83A23C512A17 /* libPods-TEM.a in Frameworks */,
+				ED34DA94C42653C58C535AED /* libPods-TEM.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,8 +107,8 @@
 			children = (
 				0075ACD52720B2EB0086F8D8 /* MapKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				46F271EECF7B53998798FE6F /* libPods-TEM.a */,
-				8212C6FA738831D24E8ACA65 /* libPods-TEM-TEMTests.a */,
+				DA8B4B0E4E42D66A13DD6151 /* libPods-TEM.a */,
+				3224427CE516E908C4ACE5AD /* libPods-TEM-TEMTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,10 +155,10 @@
 		FC9FAAC9359457DD2A4A8BA7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9816E04AC2012FC4B9CADAD2 /* Pods-TEM.debug.xcconfig */,
-				36F4E5C0BED4874BFF9F809C /* Pods-TEM.release.xcconfig */,
-				88EA6EA5AB7C67387D6CAE74 /* Pods-TEM-TEMTests.debug.xcconfig */,
-				E15B924ACC0DCBC02BD91E02 /* Pods-TEM-TEMTests.release.xcconfig */,
+				7DEE87ACF2FC10D3E6D4C961 /* Pods-TEM.debug.xcconfig */,
+				87C76072C1557CF2BA90966A /* Pods-TEM.release.xcconfig */,
+				977D509BB6CB86FA903F82EC /* Pods-TEM-TEMTests.debug.xcconfig */,
+				6DD701FB097A534CB5C88B83 /* Pods-TEM-TEMTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -170,12 +170,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TEMTests" */;
 			buildPhases = (
-				BAE692B42CF7D8520A469CE6 /* [CP] Check Pods Manifest.lock */,
+				DA51EEFB5259E8C8C32D54D3 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C1654B5079A04F94B6C15496 /* [CP] Embed Pods Frameworks */,
-				4A08B3F062408553F4BAB3AD /* [CP] Copy Pods Resources */,
+				FAD959CA716A8F74F36668B3 /* [CP] Embed Pods Frameworks */,
+				D42F7C83AE6CDBF7D6F43F8B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -191,14 +191,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "TEM" */;
 			buildPhases = (
-				16598847D29BAF4208B4B49D /* [CP] Check Pods Manifest.lock */,
+				28DF028049159532B1DF23D4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				96E3B1EB9BB6E44306B61831 /* [CP] Embed Pods Frameworks */,
-				E26107A42A45147422FD9D91 /* [CP] Copy Pods Resources */,
+				14F23D9FC3F8CEA96ACA9503 /* [CP] Embed Pods Frameworks */,
+				92DF37C05B79603A8A9BE985 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,7 +280,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		16598847D29BAF4208B4B49D /* [CP] Check Pods Manifest.lock */ = {
+		14F23D9FC3F8CEA96ACA9503 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		28DF028049159532B1DF23D4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -302,7 +319,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4A08B3F062408553F4BAB3AD /* [CP] Copy Pods Resources */ = {
+		92DF37C05B79603A8A9BE985 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D42F7C83AE6CDBF7D6F43F8B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,24 +353,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TEM-TEMTests/Pods-TEM-TEMTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		96E3B1EB9BB6E44306B61831 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BAE692B42CF7D8520A469CE6 /* [CP] Check Pods Manifest.lock */ = {
+		DA51EEFB5259E8C8C32D54D3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -358,7 +375,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C1654B5079A04F94B6C15496 /* [CP] Embed Pods Frameworks */ = {
+		FAD959CA716A8F74F36668B3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -373,23 +390,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TEM-TEMTests/Pods-TEM-TEMTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E26107A42A45147422FD9D91 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TEM/Pods-TEM-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -444,7 +444,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 88EA6EA5AB7C67387D6CAE74 /* Pods-TEM-TEMTests.debug.xcconfig */;
+			baseConfigurationReference = 977D509BB6CB86FA903F82EC /* Pods-TEM-TEMTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -474,7 +474,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E15B924ACC0DCBC02BD91E02 /* Pods-TEM-TEMTests.release.xcconfig */;
+			baseConfigurationReference = 6DD701FB097A534CB5C88B83 /* Pods-TEM-TEMTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -501,7 +501,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9816E04AC2012FC4B9CADAD2 /* Pods-TEM.debug.xcconfig */;
+			baseConfigurationReference = 7DEE87ACF2FC10D3E6D4C961 /* Pods-TEM.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -532,7 +532,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36F4E5C0BED4874BFF9F809C /* Pods-TEM.release.xcconfig */;
+			baseConfigurationReference = 87C76072C1557CF2BA90966A /* Pods-TEM.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

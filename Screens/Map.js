@@ -25,6 +25,7 @@ export default class Map extends React.Component{
     loadVendingMachineLocationData = () => {
         firebaseApp.database().ref("machines/").on("value", snapshot =>{
             let responseList = Object.values(snapshot.val())
+            console.log("Response" + responseList)
             this.setState({markers : responseList})
         });
     }

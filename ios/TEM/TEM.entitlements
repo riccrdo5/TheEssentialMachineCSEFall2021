@@ -5,6 +5,7 @@
 	<key>com.apple.developer.in-app-payments</key>
 	<array>
 		<string>merchant.com.tem</string>
+		<string>merchant.com.temapp</string>
 	</array>
 </dict>
 </plist>
