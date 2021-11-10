@@ -8,7 +8,7 @@ const functions = require("firebase-functions");
 //   response.send("Hello from Firebase!");
 // });
 
-const stripe = require('stripe')('sk_test_51JbOfHGLOm0NKpAUjdAX6bOZinCvYYRJJCXGaG9CwGF6MoevWX3ifdpoEnx4R5teUdpSKUIRWrcvOXQOh7u7wXNP00KAoAjLLs');
+const stripe = require('stripe')('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');
 
 exports.applePay = functions.https.onRequest((request, response) => {
     // eslint-disable-next-line promise/catch-or-return
@@ -18,6 +18,7 @@ exports.applePay = functions.https.onRequest((request, response) => {
         source: request.body.token,
         // source: "tok_mastercard"
     }).then((charge) => {
+            console.log("Entered Fetch")
             // asynchronously called
             response.send(charge);
         })
@@ -25,4 +26,3 @@ exports.applePay = functions.https.onRequest((request, response) => {
             console.log(err);
         });
 });
-

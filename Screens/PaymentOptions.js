@@ -7,21 +7,7 @@ import SignUp from './SignUp.js';
 import ApplePaySuccess from './ApplePaySuccess.js';
 import { StackNavigator } from "react-navigation";
 import { ApplePayButton, PaymentRequest } from 'react-native-payments';
-// import { ApplePay, APayRequestDataType, APayPaymentStatusType } from 'react-native-apay'
 import BitcoinPay from './bitcoin-pay.js';
-
-// const requestData : APayRequestDataType = {
-//   merchantIdentifier: 'merchant.com.temapp',
-//   supportedNetworks: ['mastercard', 'visa'],
-//   countryCode: 'US',
-//   currencyCode: 'USD',
-//   paymentSummaryItems: [
-//     {
-//       label: 'Vending Machine',
-//       amount: '0.01',
-//     },
-//   ],
-// }
 
 const supportedMethods = [
     { 
@@ -30,13 +16,12 @@ const supportedMethods = [
             { 
                 merchantIdentifier: 'merchant.com.temapp',
                 supportedNetworks: ['visa', 'mastercard', 'amex'],
-                environment: 'TEST',
                 countryCode: 'US',
                 currencyCode: 'USD',
                 paymentMethodTokenizationParameters: {
                     parameters: {
                         gateway: 'stripe',
-                        'stripe:publishableKey': 'pk_test_51JbOfHGLOm0NKpAUCOgcuyMP5h2hvv73RI67Gb81k8nU9ChLYuCBTT3xNdvhzzoRX5nQWpgVf92F5QjHAar7jeXt00k7rdLRuT'
+                        'stripe:publishableKey': 'pk_live_51JbOfHGLOm0NKpAUilNTplOE8CMj5uQnwG9LIuqUvwITNj2JgPkMObDyq50eb6kKbdp2Q60YNs9uJwjMQxeZN6Pg00UZnFBD4L'
                     },
                 },
             } 
@@ -48,75 +33,40 @@ const details = {
     displayItems:[ 
         { 
             label: 'Payment',
-             amount: { currency: 'USD', value: 1.00 }
+             amount: { currency: 'USD', value: 0.5 }
         }],
     total: {
-        label: 'Test',
-        amount: { currency: 'USD', value: 1.00 } 
+        label: 'Vending Machine',
+        amount: { currency: 'USD', value: 0.5 } 
         } 
 };
 
 const paymentRequest = new PaymentRequest(supportedMethods,details);
 
-
-// const METHOD_DATA = [
-//     {
-//         supportedMethods: ['apple-pay'],
-//         data: {
-//             merchantIdentifier: 'merchant.com.temapp',
-//             supportedNetworks: ['visa', 'mastercard', 'amex'],
-//             countryCode: 'US',
-//             currencyCode: 'USD',
-//             // uncomment this block to activate automatic Stripe tokenization.
-//             // try putting your key pk_test... in here and see how the token format changes.
-//             paymentMethodTokenizationParameters: {
-//                 parameters: {
-//                     gateway: 'stripe',
-//                     'stripe:publishableKey': 'pk_live_51JbOfHGLOm0NKpAUilNTplOE8CMj5uQnwG9LIuqUvwITNj2JgPkMObDyq50eb6kKbdp2Q60YNs9uJwjMQxeZN6Pg00UZnFBD4L'
-//                 },
-//             },
-//         },
-//     },
-// ];
-
-// const DETAILS = {
-//     id: 'basic-example',
-//     displayItems: [
-//         {
-//             label: 'Movie Ticket',
-//             amount: { currency: 'USD', value: '0.01' },
-//         },
-//     ],
-//     total: {
-//         label: 'Vending Machine',
-//         amount: { currency: 'USD', value: '0.01' },
-//     },
-// };
-
-
 export default class PaymentOptions extends React.Component{
 
-    doPayment =(token)= async () => {
+    doPayment = async (token) => {
         console.log("Entered Do Payment")
-        console.log("Token Receiverd"+token)
-        // fetch('https://us-central1-the-essential-machine.cloudfunctions.net/applePay', {
-        //     method: 'POST',
-        //     headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //     amount: 100,
-        //     currency: "usd",
-        //     token: token
-        //     }),
-        // }).then((response) => response.json())
-        //     .then((responseJson) => {
-        //     console.log("Final Response" + responseJson);
-        //     })
-        //     .catch((error) => {
-        //     console.error(error);
-        //     });;
+        console.log("Token Received "+ token)
+        fetch('https://us-central1-the-essential-machine.cloudfunctions.net/applePay', {
+            method: 'POST',
+            headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            amount: 50,
+            currency: "usd",
+            token: token
+            }),
+        }).then((response) => response.text())
+            .then((responseJson) => {
+            console.log("Final Response" + JSON.stringify(responseJson));
+            this.props.navigation.navigate('ApplePaySuccess')
+            })
+        .catch((error) => {
+            console.log(error);
+        });;
     }
 
     pay = async() => {
@@ -140,53 +90,6 @@ export default class PaymentOptions extends React.Component{
             }
         });
     }
-
-    // pay = async() => {
-	// 	console.log('Entered')
-	// 	const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
-    //     console.log(paymentRequest)
-    //     console.log(paymentRequest.show())
-	// 	paymentRequest.show().then(paymentResponse => {
-	// 		const card_token = paymentResponse.details.paymentToken;
-	// 		console.log("Token"+card_token);
-
-	// 		// axios({
-	// 		// 	method: 'POST',
-	// 		// 	url: 'https://us-central1-the-essential-machine.cloudfunctions.net/applePay',
-	// 		// 	data : {
-	// 		// 		amount: 0.01,
-	// 		// 		currency: 'usd',
-	// 		// 		token: card_token
-	// 		// 	}
-	// 		// }).then(response => {
-	// 		// 	console.log("Response"+ response)
-	// 		// })
-
-    //         // return fetch('https://us-central1-the-essential-machine.cloudfunctions.net/applePay', {
-    //         //     method: 'POST',
-    //         //     body: {
-    //         //         amount: 0.01,
-    //         //         currency: 'usd',
-    //         //         token: card_token,
-    //         //     }
-    //         // }).then(res => {
-    //         //         console.log("Response" + res.json())
-    //         //     })
-    //         //     .then(successHandler)
-    //         //     .catch(errorHandler)
-
-	// 	}).catch(error => {
-    //         paymentRequest.abort()
-	// 		console.log(error)
-    //         const card_token = paymentResponse.details.paymentToken;
-    //         console.log("Token"+card_token);
-	// 		if(error.message === 'AbortError') {
-	// 			console.log("Error")
-	// 			this.debug('Payment request was dismissed');
-	// 		}
-    //         paymentRequest.abort()
-	// 	});
-	// };
 
     render(){
         const amount = this.props.navigation.getParam('text');
