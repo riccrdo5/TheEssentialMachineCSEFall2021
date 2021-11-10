@@ -13,6 +13,14 @@ target 'TEM' do
   pod 'GoogleMaps' 
   pod 'Google-Maps-iOS-Utils'
   pod 'react-native-geolocation', path: '../node_modules/@react-native-community/geolocation'
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Crash'
+  pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Performance'
+  pod 'Firebase/Storage'
 
   use_react_native!(
     :path => config[:reactNativePath],
