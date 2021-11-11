@@ -22,8 +22,9 @@ import PaymentOptions from './Screens/PaymentOptions.js';
 import ScanQR from './Screens/ScanQR.js';
 import Map from './Screens/Map.js';
 import ApplePaySuccess from './Screens/ApplePaySuccess.js';
-// import BitcoinPay from './Screens/bitcoin-pay';
+import BitcoinPay from './Screens/bitcoin-pay';
 import BitcoinPaySuccess from './Screens/bitcoin-pay-success';
+import BitcoinPayExpired from './Screens/bitcoin-pay-expired';
 
 const stackNavigator = createStackNavigator({
     // HomeScreen: HomeScreen,
@@ -38,8 +39,9 @@ const stackNavigator = createStackNavigator({
     PaymentOptions: PaymentOptions,
     Map : Map,
     ApplePaySuccess: ApplePaySuccess,
-    // BitcoinPay: BitcoinPay,
+    BitcoinPay: BitcoinPay,
     BitcoinPaySuccess: BitcoinPaySuccess,
+    BitcoinPayExpired : BitcoinPayExpired
 
   },
   {
