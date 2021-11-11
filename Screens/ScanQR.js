@@ -1,22 +1,49 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet,AsyncStorage} from 'react-native';
 import { StackNavigator } from "react-navigation";
 import UserAccount from './UserAccount.js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+import {firebaseApp} from '../config/firebase';
 
 import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
 
 export default class ScanQR extends React.Component{
 
+    getTransactionDetails = (vm_id, email) => {
+        console.log("Entered VM!")
+        var machineId = ''
+        var amt = ''
+        firebaseApp.database().ref("machines/").orderByChild('name').equalTo(vm_id).on("value", snapshot =>{
+            machineId = Object.keys(snapshot.val())[0]
+            let responseList = Object.values(snapshot.val())
+            console.log(responseList[0].transaction_amount)
+            amt =  responseList[0].transaction_amount
+        });
+        console.log("MachineId " +  machineId)
+        console.log("Amount" + amt)
+        var ref = firebaseApp.database().ref("machines/").child(machineId)
+        ref.update({ active_user_id : email });
+        return [amt, machineId, vm_id]
+    }
 
-    onSuccess = e => {
-            this.props.navigation.navigate('PaymentOptions', {text: e.data});     
+    onSuccess = async(e) => {
+            console.log(e.data)
+            let user = await AsyncStorage.getItem('UserEmail');  
+            var obj = this.getTransactionDetails(e.data, user)
+            var amt = obj[0]
+            var machineId = obj[1]
+            var vm_num = obj[2]
+            console.log("Got amount " + amt)
+            console.log("Got id " + machineId)
+            console.log("Got VM " + vm_num)
+            this.props.navigation.navigate('PaymentOptions', {text: amt, id:machineId, vm_id:vm_num});     
             this.scanner.reactivate();       
-            };
-    
+    };
+
+
     render(){
         const email = this.props.navigation.getParam('text');
 

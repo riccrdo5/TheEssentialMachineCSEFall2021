@@ -21,7 +21,7 @@ export default class HomeScreen extends React.Component{
 
     componentDidMount(){
         const email = this.props.navigation.getParam('text');
-        firebaseApp.firestore().collection('Receipts')
+        firebaseApp.firestore().collection('receipts')
         .where("email","==", email)
         .get()
         .then(snapshot =>{
@@ -49,8 +49,8 @@ export default class HomeScreen extends React.Component{
             <Text style={{fontSize:30, color:'white', fontWeight:'bold', textAlign:'center', marginTop:10, marginBottom:20}}> Your Receipts </Text>
 
             {this.state.receipts && this.state.receipts.map(receipt => (
-                <View style={{margin: 20, marginTop:15, height:70, width:350, left:3, backgroundColor:'white', borderRadius:20}}>
-                    <Text style={{fontSize:20, fontWeight:"700", textAlign:'center', marginTop:20}}> Paid {receipt.amount} to Vending Machine {receipt.vendingMachineNumber} </Text>
+                <View style={{margin: 20, marginTop:15, height:70, width:330, left:3, backgroundColor:'white', borderRadius:20}}>
+                    <Text style={{fontSize:20, fontWeight:"700", textAlign:'center', marginTop:20}}> Paid ${receipt.amount} to Vending Machine {receipt.vendingMachineNumber} </Text>
                 </View>
             ))}
         </View>
