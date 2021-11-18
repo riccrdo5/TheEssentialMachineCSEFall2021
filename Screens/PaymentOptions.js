@@ -9,6 +9,14 @@ import { StackNavigator } from "react-navigation";
 import { ApplePayButton, PaymentRequest } from 'react-native-payments';
 import BitcoinPay from './bitcoin-pay.js';
 import {firebaseApp} from '../config/firebase';
+import { GooglePay, RequestDataType} from 'react-native-google-pay';
+
+const allowedCardNetworks = ['VISA', 'MASTERCARD'];
+const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
+
+if(Platform.OS === 'android'){
+  GooglePay.setEnvironment(GooglePay.ENVIRONMENT_PRODUCTION);
+}
 
 export default class PaymentOptions extends React.Component{
 
@@ -102,6 +110,47 @@ export default class PaymentOptions extends React.Component{
         });
     }
 
+    googlePay =(amt) =>{
+
+      const requestData: RequestDataType = {
+          cardPaymentMethod: {
+            tokenizationSpecification: {
+              type: 'PAYMENT_GATEWAY',
+              gateway: 'stripe',
+              stripe: {
+                publishableKey: 'pk_test_51JbOfHGLOm0NKpAUCOgcuyMP5h2hvv73RI67Gb81k8nU9ChLYuCBTT3xNdvhzzoRX5nQWpgVf92F5QjHAar7jeXt00k7rdLRuT',
+                version: '2018-11-08',
+              },
+              merchantId : 'BCR2DN4TXDD4TLIT' 
+            },
+            allowedCardNetworks,
+            allowedCardAuthMethods,
+          },
+          transaction: {
+            totalPrice: amt,
+            totalPriceStatus : 'FINAL',
+            currencyCode: 'USD',
+          },
+          merchantName: 'merchant.com.temapp',
+      };
+
+      console.log('Entered Google Pay' + amt);
+      GooglePay.isReadyToPay(allowedCardNetworks, allowedCardAuthMethods)
+        .then(ready => {
+          console.log('Google Pay' + ready);
+          if (ready) {
+            GooglePay.requestPayment(requestData)
+              .then((token) => {
+                token = JSON.parse(token)
+                console.log("token received"+token.id)
+                this.doPayment(token.id, amt)
+              }).catch(error => console.log(error.code, error.message));
+          } else {
+            alert("Google Pay Not Ready!")
+          }
+          }).catch(error => console.log(error.code, error.message))
+    }
+
     render(){
         const amt = this.props.navigation.getParam('text');
         let user =  AsyncStorage.getItem('UserEmail');  
@@ -131,20 +180,14 @@ export default class PaymentOptions extends React.Component{
             </View>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:40}}>
-            {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ApplePayPayment', {text:amount})}>
-                <Image source={require('./applepay-icon.jpeg')} style={{height:50, width:80,borderRadius:5}}/>
-            </TouchableOpacity> */}
-            <ApplePayButton type="plain" width={80} height={50} borderRadius={5} style="white" onPress={() => this.pay(amt)}/>
-
-            <TouchableOpacity onPress={() => alert('GooglePay!!')} >
-                <Image source={require('./googlepay-icon.png')} style={{height:50, width:80, borderRadius:5}}/>
-            </TouchableOpacity>
+            {
+              Platform.OS === 'ios'?
+                  <ApplePayButton type="plain" width={80} height={50} borderRadius={5} style="white" onPress={() => this.pay(amt)}/>
+              : <Image 
+                onPress={()=>this.googlePay(amt)} source={require('./googlepay-icon.png')} style={{height:50, width:80, borderRadius:5}}/>
+            }
             </View>
-
-          
             </View> 
-
-
           </>
     }
 };
