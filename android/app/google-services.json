@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "944367937162",
+    "firebase_url": "https://the-essential-machine-default-rtdb.firebaseio.com",
+    "project_id": "the-essential-machine",
+    "storage_bucket": "the-essential-machine.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944367937162:android:4cd22dcf14f0ed58306f73",
+        "android_client_info": {
+          "package_name": "com.tem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944367937162-sluk1j9k05vhfu7h9b7fian134q39ca8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlKxjHOMddrROEkgsqedwokLC8-m2ou7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944367937162-sluk1j9k05vhfu7h9b7fian134q39ca8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "944367937162-f4gt1ciid8pfqg5ltf5156hktrgb5788.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.TEMAPP"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

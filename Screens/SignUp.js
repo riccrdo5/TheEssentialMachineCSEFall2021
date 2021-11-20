@@ -8,13 +8,30 @@ import UserAccount from './UserAccount.js';
 import HomeScreen from './Homepage.js';
 import { StackNavigator } from "react-navigation";
 import {firebaseApp} from '../config/firebase';
+import * as firebase from 'firebase';
 import ScanQR from './ScanQR.js';
 import Feather from 'react-native-vector-icons/Feather';
 Feather.loadFont();
+import PushNotification from "react-native-push-notification";
 
 export default class SignUp extends React.Component{
     constructor(){
         super();
+    }
+
+    createChannels = () =>{
+        console.log("Channel Created")
+        PushNotification.createChannel(
+        {
+        channelId : "test-local-channel",
+        channelName: "Test Local Channel"
+        }
+        )
+    }
+
+    componentDidMount(){
+        console.log("Entered")
+        this.createChannels();
     }
 
     state = {
@@ -96,6 +113,33 @@ export default class SignUp extends React.Component{
         this.setState({tickValidConfirmPassword: false})
     }
 
+    addUserInfoForNotifications = async(email, fullname) => {
+        deviceToken = AsyncStorage.getItem('deviceToken');
+        var dbRef = firestoreDb.collection("notifications").where("email","==", email)
+        await dbRef
+        .get()
+        .then(async(querySnapshot) => {
+            const data = querySnapshot.docs.map(doc => doc.data());
+            const key = querySnapshot.docs.map(doc => doc.id);
+            const docId = Object.values(key)[0]
+            if(Object.keys(data).length){
+                console.log("Document Already Exists");
+                deviceInfo = {platform:Platform.OS,token:deviceToken}
+                await firestoreDb.collection("notifications").doc(docId).update({
+                    devices: firebase.firestore.FieldValue.arrayUnion(deviceInfo)
+                });
+            } else{
+                console.log("No Such Document Exists");
+                await firestoreDb.collection("notifications").add({
+                name: fullname,
+                email: email,
+                devices: {platform: Platform.OS, token: deviceToken}
+                });
+            }
+        });
+        console.log("Updation Complete")
+    }
+
     storeUser(uid) {
         firebaseApp.firestore().collection('users').doc(uid).set({
             firstName: this.state.firstName,
@@ -108,6 +152,9 @@ export default class SignUp extends React.Component{
           }).then(async(res) => {
             await AsyncStorage.setItem('isLoggedIn', '1');
             await AsyncStorage.setItem('UserEmail', JSON.stringify(this.state.email));
+            await AsyncStorage.setItem('firstName', JSON.stringify(this.state.firstName));
+            await AsyncStorage.setItem('lastName', JSON.stringify(this.state.lastName));
+            this.addUserInfoForNotifications(this.state.email, this.state.firstName+this.state.lastName)
             this.props.navigation.navigate('ScanQR', {text: this.state.email})
           })
           .catch((err) => {

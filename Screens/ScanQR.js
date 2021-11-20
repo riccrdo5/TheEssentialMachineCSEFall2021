@@ -6,11 +6,46 @@ import UserAccount from './UserAccount.js';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import {firebaseApp} from '../config/firebase';
+import PushNotification from "react-native-push-notification";
 
 import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
 
 export default class ScanQR extends React.Component{
+
+    //   handleNotification = () =>{
+    //   console.log("Pressed")
+    //   PushNotification.localNotification({
+    //     channelId : "test-local-channel",
+    //     title :"You clicked on Send notification",
+    //     message: "You did it!",
+    //     bigText: "Hi Niharika you did it!!"
+    //   });
+
+    //   PushNotification.localNotificationSchedule({
+    //         channelId : "test-local-channel",
+    //         title :"Alarm!!",
+    //         message: "You did it After 10seconds!",
+    //         date: new Date(Date.now()+10*1000),
+    //         allowWhileIdle: true
+    //   });
+
+    // }
+
+    createChannels = () =>{
+        console.log("Channel Created")
+        PushNotification.createChannel(
+        {
+        channelId : "test-local-channel",
+        channelName: "Test Local Channel"
+        }
+        )
+    }
+
+    componentDidMount(){
+        console.log("Entered")
+        this.createChannels();
+    }
 
     getTransactionDetails = (vm_id, email) => {
         console.log("Entered VM!")

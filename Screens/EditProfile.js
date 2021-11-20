@@ -5,6 +5,8 @@ import UserAccount from './UserAccount.js';
 import { StackNavigator } from "react-navigation"; 
 import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
+const firestoreDb = firebaseApp.firestore();
+firestoreDb.settings({ experimentalForceLongPolling: true });
 
 export default class EditProfile extends React.Component{
 
@@ -33,7 +35,8 @@ export default class EditProfile extends React.Component{
     }
 
     fetchUserData = () =>{
-        const response = firebaseApp.firestore().collection('users')
+        console.log("Entered")
+        const response = firestoreDb.collection('users')
         .where("email","==", this.state.email)
         .get()
         .then(querySnapshot => {
@@ -139,7 +142,7 @@ export default class EditProfile extends React.Component{
                     var user = firebase.auth().currentUser;
                     var uid = user.uid;
 
-                    firebaseApp.firestore().collection('users').doc(uid).update({
+                    firestoreDb.collection('users').doc(uid).update({
                         firstName: this.state.firstName,
                         lastName: this.state.lastName,
                         school: this.state.school,
@@ -157,7 +160,7 @@ export default class EditProfile extends React.Component{
                 var user = firebase.auth().currentUser;
                 var uid = user.uid;
 
-                firebaseApp.firestore().collection('users').doc(uid).update({
+                firestoreDb.collection('users').doc(uid).update({
                     firstName: this.state.firstName,
                     lastName: this.state.lastName,
                     school: this.state.school,

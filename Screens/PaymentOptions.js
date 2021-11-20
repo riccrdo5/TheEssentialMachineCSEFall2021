@@ -10,8 +10,11 @@ import { ApplePayButton, PaymentRequest } from 'react-native-payments';
 import BitcoinPay from './bitcoin-pay.js';
 import {firebaseApp} from '../config/firebase';
 import { GooglePay, RequestDataType} from 'react-native-google-pay';
+import * as firebase from 'firebase';
+const firestoreDb = firebaseApp.firestore();
+firestoreDb.settings({ experimentalForceLongPolling: true });
 
-const allowedCardNetworks = ['VISA', 'MASTERCARD'];
+const allowedCardNetworks = ['VISA', 'MASTERCARD', 'DISCOVER', 'AMEX'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 
 if(Platform.OS === 'android'){
@@ -19,11 +22,30 @@ if(Platform.OS === 'android'){
 }
 
 export default class PaymentOptions extends React.Component{
+  
+    addVendingMachineForNotificationUse = async(vendingMachineId) => {
+        console.log("Updating values for Notifications Functionality")
+        var dbRef = firestoreDb.collection("notifications").where("email","==", useremail)
+        await dbRef
+        .get()
+        .then(async(querySnapshot) => {
+            const data = querySnapshot.docs.map(doc => doc.data());
+            const key = querySnapshot.docs.map(doc => doc.id);
+            const docId = Object.values(key)[0]
+            if(Object.keys(data).length){
+                console.log("Document Already Exists");
+                await firestoreDb.collection("notifications").doc(docId).update({
+                    used_vending_machines: firebase.firestore.FieldValue.arrayUnion(vendingMachineId)
+                });
+            }
+        });
+        console.log("Updation Complete")
+    }
 
     addReceipt = async(amt) => {
         const vendingMachineId = this.props.navigation.getParam('vm_id');
         let user = await AsyncStorage.getItem('UserEmail');  
-        firebaseApp.firestore().collection('receipts')
+        firestoreDb.collection('receipts')
         .add({
             amount: amt,
             email: user,
@@ -32,6 +54,7 @@ export default class PaymentOptions extends React.Component{
             timestamp: Date.now()
           }).then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
+            this.addVendingMachineForNotificationUse(vendingMachineId)
             this.props.navigation.navigate('ApplePaySuccess')
           })
           .catch((err) => {
@@ -198,7 +221,7 @@ const supportedMethods = [
         data: 
             { 
                 merchantIdentifier: 'merchant.com.temapp',
-                supportedNetworks: ['visa', 'mastercard', 'amex'],
+                supportedNetworks: ['visa', 'mastercard', 'amex', 'discover'],
                 countryCode: 'US',
                 currencyCode: 'USD',
                 paymentMethodTokenizationParameters: {
