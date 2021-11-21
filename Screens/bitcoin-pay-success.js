@@ -18,16 +18,15 @@ import {firebaseApp} from '../config/firebase';
 export default class BitcoinPay extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { urlVal: "", isStatusLogged: false, amount:"", vmid:"", promoid:"", discount:"", email:"", vmNumber:""};
+        this.state = { urlVal: "", isStatusLogged: false, amount:"", promoid:"", discount:"", email:"", vmNumber:""};
     }
     componentDidMount() {
         this.intervalID = setInterval(()=> this.fetchInvoiceStatus(), 1000)
         const amount = this.props.navigation.getParam('text').replace('$','');
-        const vmid = this.props.navigation.getParam('vm_id'); // eg VM1, VM2
         const machineId = this.props.navigation.getParam('id'); // machineNumber
         const user = this.props.navigation.getParam('UserEmail'); // useremail
 
-        this.setState({amount : amount, vmid:vmid, email:user, vmNumber:machineId})
+        this.setState({amount : amount, email:user, vmNumber:machineId})
         let formData = new FormData();
         // Change the storeID according to your store number
         formData.append('storeId', '2qwRZJGfsxMjukdxbfecDABbyc3dUiW2gxFuFQ27yeQa');
@@ -56,7 +55,7 @@ export default class BitcoinPay extends React.Component{
         amount: this.state.amount,
         email: this.state.email,
         paymentMethod: "Bitcoin Pay",
-        vendingMachineNumber: this.state.vmid,
+        vendingMachineNumber: this.state.vmNumber,
         timestamp: Date.now(),
         transaction_id: invoiceId,
         transaction_status: 'paid'
