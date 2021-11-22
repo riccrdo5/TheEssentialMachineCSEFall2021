@@ -46,7 +46,7 @@ const stackNavigator = createStackNavigator({
     BitcoinPaySuccess: BitcoinPaySuccess,
     BitcoinPayExpired : BitcoinPayExpired,
     helpPage : helpPage,
-    CardPage : CardPage
+    CardPage : CardPage,
     SendNotification: SendNotification
   },
   {
