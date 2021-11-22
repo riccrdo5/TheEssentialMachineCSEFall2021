@@ -40,13 +40,14 @@ exports.sendNotification = functions.https.onRequest((request, response) =>{
     console.log(fcmTokens)
     console.log(request.body.title)
     console.log(request.body.message)
+    console.log(request.body.image)
     const message = {
         notification: {
             title: request.body.title,
             body: request.body.message,
             image: request.body.image,
         },
-        token: fcmTokens,
+        tokens: fcmTokens,
     };
     admin.messaging().sendMulticast(message).then((response) => {
         console.log('Successfully sent message:', response);

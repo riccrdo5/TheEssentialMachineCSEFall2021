@@ -55,6 +55,7 @@ export default class SendNotification extends React.Component{
             }
         });
         console.log(JSON.stringify(tokens))
+        console.log(typeof(this.state.image))
         await fetch('https://us-central1-the-essential-machine.cloudfunctions.net/sendNotification', {
             method: 'POST',
             headers: {

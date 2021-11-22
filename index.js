@@ -73,6 +73,7 @@ PushNotification.configure({
             channelId : "test-local-channel",
             title :notification.title,
             message: notification.message,
+            image: notification.bigPictureUrl,
             });
         }
     // process the notification
