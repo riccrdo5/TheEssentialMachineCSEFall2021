@@ -209,6 +209,8 @@ export default class PaymentOptions extends React.Component{
     render(){
         const amt = this.props.navigation.getParam('text');
         let user =  AsyncStorage.getItem('UserEmail');  
+        const machineId = this.props.navigation.getParam('id');
+
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
           
@@ -225,7 +227,7 @@ export default class PaymentOptions extends React.Component{
             <Text style={{paddingLeft:50, fontSize:25, fontWeight:'500', marginTop:50}}> Pay with: </Text>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:30}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:amt, id:id , UserEmail:UserEmail})}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:amt, id:machineId , UserEmail:UserEmail})}>
                 <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
             </TouchableOpacity>
             <Modal
