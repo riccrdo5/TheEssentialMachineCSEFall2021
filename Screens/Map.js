@@ -12,6 +12,7 @@ import {firebaseApp} from '../config/firebase';
 import navigatePicture from './navigate-icon.png';
 import UserAccount from './UserAccount.js';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
+import helpPage from './helpPage.js';
 
 export default class Map extends React.Component{
     constructor(props) {
@@ -92,7 +93,7 @@ export default class Map extends React.Component{
             </MapView>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:25, paddingRight:25, marginTop:80}}>
-            <TouchableOpacity onPress={()=>{alert("Help!")}}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('helpPage')}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('ScanQR')} >

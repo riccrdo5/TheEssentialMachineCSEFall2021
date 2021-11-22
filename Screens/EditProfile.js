@@ -7,6 +7,7 @@ import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true });
+import helpPage from './helpPage.js';
 
 export default class EditProfile extends React.Component{
 
@@ -264,7 +265,7 @@ export default class EditProfile extends React.Component{
              {this.state.successMessage!='' &&
             <Text style={{color: '#57f416',fontSize: 18,textAlign:'center', fontWeight: '600'}}> {this.state.successMessage} </Text>}
             
-            <TouchableOpacity onPress={()=>{alert("Help!")}}>
+            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('helpPage')}}>
             <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:30 }} />
             </TouchableOpacity>
             </View>

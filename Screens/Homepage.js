@@ -5,6 +5,7 @@ import UserAccount from './UserAccount.js';
 import Login from './LoginPage.js';
 import SignUp from './SignUp.js';
 import { StackNavigator } from "react-navigation";
+import helpPage from './helpPage.js';
 
 export default class HomeScreen extends React.Component{
     render(){
@@ -23,7 +24,7 @@ export default class HomeScreen extends React.Component{
             <Text style={{fontSize:20, fontWeight:"bold", color:"black"}}> LOGIN </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('helpPage')}>
             <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:30 }} />
             </TouchableOpacity>
             </View>

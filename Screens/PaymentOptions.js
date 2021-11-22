@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TouchableOpacity, AsyncStorage} from 'react-native';
+import {View, TouchableOpacity, AsyncStorage, Modal} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import Login from './LoginPage.js';
 import SignUp from './SignUp.js';
@@ -13,6 +13,8 @@ import { GooglePay, RequestDataType} from 'react-native-google-pay';
 import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true });
+import {WebView} from 'react-native-webview';
+
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD', 'DISCOVER', 'AMEX'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
@@ -41,6 +43,21 @@ export default class PaymentOptions extends React.Component{
         });
         console.log("Updation Complete")
     }
+
+    state = {
+        showModal: false,
+    };
+
+    handleResponse = (data) => {
+        if (data.title === "success") {
+            this.setState({ showModal: false, status: "Complete" });
+            this.props.navigation.navigate('ApplePaySuccess')
+        } else if (data.title === "cancel") {
+            this.setState({ showModal: false, status: "Cancelled" });
+        } else {
+            return;
+        }
+    };
 
     addReceipt = async(amt) => {
         const vendingMachineId = this.props.navigation.getParam('vm_id');
@@ -196,8 +213,20 @@ export default class PaymentOptions extends React.Component{
             <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:amt, id:id , UserEmail:UserEmail})}>
                 <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
             </TouchableOpacity>
+            <Modal
+                    visible={this.state.showModal}
+                    onRequestClose={() => this.setState({ showModal: false })}
+                >
+                    <WebView
+                        source={{ uri: "https://17d2-160-72-138-210.ngrok.io" }}
+                        onNavigationStateChange={data =>
+                            this.handleResponse(data)
+                        }
+                        injectedJavaScript={`document.f1.submit()`}
+                    />
+            </Modal>
 
-            <TouchableOpacity onPress={() => alert('PayPal!!')} >
+            <TouchableOpacity onPress={() => this.setState({ showModal: true }) } >
                 <Image source={require('./paypal-icon.jpeg')} style={{height:70, width:80,borderRadius:300}}/>
             </TouchableOpacity>
             </View>

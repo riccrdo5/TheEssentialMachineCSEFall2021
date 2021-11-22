@@ -13,6 +13,7 @@ import ScanQR from './ScanQR.js';
 import Feather from 'react-native-vector-icons/Feather';
 Feather.loadFont();
 import PushNotification from "react-native-push-notification";
+import helpPage from './helpPage.js';
 
 export default class SignUp extends React.Component{
     constructor(){
@@ -432,7 +433,7 @@ export default class SignUp extends React.Component{
             <Text style={{fontSize:20, fontWeight:"bold", color:"white"}} > CREATE ACCOUNT </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={()=>{alert("Help!")}}>
+            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('helpPage')}}>
             <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:0 }} />
             </TouchableOpacity>
             </View>

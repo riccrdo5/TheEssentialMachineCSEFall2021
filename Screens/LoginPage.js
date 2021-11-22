@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 import PushNotification from "react-native-push-notification";
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true });
+import helpPage from './helpPage.js';
 
 export default class Login extends React.Component{
 
@@ -147,7 +148,7 @@ export default class Login extends React.Component{
                 </Text>
             }
 
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('helpPage')}>
             <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:100 }} />
             </TouchableOpacity>
 

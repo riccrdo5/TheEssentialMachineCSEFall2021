@@ -10,6 +10,7 @@ import PushNotification from "react-native-push-notification";
 
 import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
+import helpPage from './helpPage.js';
 
 export default class ScanQR extends React.Component{
 
@@ -107,7 +108,7 @@ export default class ScanQR extends React.Component{
             </View>           
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:25, paddingRight:25, marginTop:400}}>
-            <TouchableOpacity onPress={()=>{alert("Help!")}}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('helpPage')}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('Map')} >
@@ -116,6 +117,7 @@ export default class ScanQR extends React.Component{
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount', {text: email})} >
             <Image source={require('./user-icon.png')} style={{height:80, width:80}} />
             </TouchableOpacity>
+            
             </View>
 
         </View>

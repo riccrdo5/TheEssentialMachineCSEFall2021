@@ -6,6 +6,7 @@ import EditProfile from './EditProfile.js';
 import Receipts from './Receipts.js';
 import ScanQR from './ScanQR.js';
 import Map from './Map.js';
+import helpPage from './helpPage.js';
 
 export default class UserAccount extends React.Component{
 
@@ -65,7 +66,7 @@ export default class UserAccount extends React.Component{
             </TouchableOpacity>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:25, paddingRight:25, paddingTop:90}}>
-            <TouchableOpacity onPress={()=>{alert("Help!")}}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('helpPage')}>
             <Image source={require('./help-icon.png')} style={{height:80, width:90}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>this.props.navigation.navigate('PaymentOptions')}>
