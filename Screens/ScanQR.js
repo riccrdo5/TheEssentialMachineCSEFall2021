@@ -7,12 +7,20 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import {firebaseApp} from '../config/firebase';
 import PushNotification from "react-native-push-notification";
-
+import SendNotification from './sendNotification.js'
 import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
 import helpPage from './helpPage.js';
 
 export default class ScanQR extends React.Component{
+
+    constructor(){
+        super();
+    }
+
+    state = {
+       isAdmin: ''
+    }
 
     //   handleNotification = () =>{
     //   console.log("Pressed")
@@ -22,6 +30,7 @@ export default class ScanQR extends React.Component{
     //     message: "You did it!",
     //     bigText: "Hi Niharika you did it!!"
     //   });
+    //   }
 
     //   PushNotification.localNotificationSchedule({
     //         channelId : "test-local-channel",
@@ -43,9 +52,17 @@ export default class ScanQR extends React.Component{
         )
     }
 
-    componentDidMount(){
+    componentDidMount = async() => {
         console.log("Entered")
         this.createChannels();
+        userEmail = await AsyncStorage.getItem('UserEmail'); 
+        console.log("UserEmail"+userEmail)
+        if(userEmail.startsWith('"')){
+            userEmail = userEmail.slice(1,-1)
+        }
+        if(userEmail == 'contact@theessentialmachine.com'){
+            this.setState({isAdmin: 1})
+        }
     }
 
     getTransactionDetails = (vm_id, email) => {
@@ -118,7 +135,14 @@ export default class ScanQR extends React.Component{
             <Image source={require('./user-icon.png')} style={{height:80, width:80}} />
             </TouchableOpacity>
             
+            {this.state.isAdmin==1 && 
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('SendNotification')}>
+                    <Image source={require('./send-notification-icon.png')} style={{height:60, width:80}} />
+                </TouchableOpacity>
+            }
             </View>
+            
+
 
         </View>
         </>

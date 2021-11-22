@@ -24,6 +24,7 @@ import Map from './Screens/Map.js';
 import ApplePaySuccess from './Screens/ApplePaySuccess.js';
 import BitcoinPay from './Screens/bitcoin-pay';
 import BitcoinPaySuccess from './Screens/bitcoin-pay-success';
+import SendNotification from './Screens/sendNotification.js';
 import BitcoinPayExpired from './Screens/bitcoin-pay-expired';
 import helpPage from './Screens/helpPage.js';
 import CardPage from './Screens/card.js';
@@ -46,6 +47,7 @@ const stackNavigator = createStackNavigator({
     BitcoinPayExpired : BitcoinPayExpired,
     helpPage : helpPage,
     CardPage : CardPage
+    SendNotification: SendNotification
   },
   {
     headerMode: 'none',

@@ -25,6 +25,9 @@ export default class UserAccount extends React.Component{
     handleEmptyEmail = async() => {
         let user = await AsyncStorage.getItem('UserEmail');  
         // user = user.slice(1, -1);
+        if(user.startsWith('"')){
+            user = user.slice(1,-1)
+        }
         this.setState({ email: user })
     }
 

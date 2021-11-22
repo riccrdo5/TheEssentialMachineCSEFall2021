@@ -94,7 +94,7 @@ export default class Login extends React.Component{
                 .then(async(querySnapshot) => {
                     const data = querySnapshot.docs.map(doc => doc.data());
                     res = data[0]
-                    // alert(res);
+                    console.log(JSON.stringify(res));
                     await AsyncStorage.setItem('firstName', res.firstName);
                     await AsyncStorage.setItem('lastName', res.lastName);
                     this.addUserInfoForNotifications(this.state.email, this.state.firstName+this.state.lastName)

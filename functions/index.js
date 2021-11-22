@@ -1,4 +1,11 @@
 const functions = require("firebase-functions");
+const admin = require('firebase-admin');
+var serviceAccount = require("./the-essential-machine-firebase-adminsdk-13l4t-be8ca7e692.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://the-essential-machine-default-rtdb.firebaseio.com"
+});
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -25,4 +32,26 @@ exports.applePay = functions.https.onRequest((request, response) => {
         .catch(err =>{
             console.log(err);
         });
+});
+
+exports.sendNotification = functions.https.onRequest((request, response) =>{
+    fcmTokens = request.body.fcmTokens;
+    console.log(JSON.stringify(fcmTokens))
+    console.log(request.body.title)
+    console.log(request.body.message)
+    const message = {
+        notification: {
+            title: request.body.title,
+            body: request.body.message,
+            image: request.body.image,
+        },
+        token: fcmTokens,
+    };
+    admin.messaging().multicast(message).then((response) => {
+        console.log('Successfully sent message:', response);
+        console.log('Successfully sent messages count:', response.successCount);
+        return {success: true};
+    }).catch((error) => {
+        console.log('Error sending message:', error);
+    });
 });
