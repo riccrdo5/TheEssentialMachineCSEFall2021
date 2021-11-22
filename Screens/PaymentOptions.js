@@ -191,6 +191,21 @@ export default class PaymentOptions extends React.Component{
           }).catch(error => console.log(error.code, error.message))
     }
 
+    // payPalPayment = (amt) => {
+    //     console.log('Entered Pay Pal Payment' + amt);
+    //     x = parseFloat(amt).toFixed(2)
+    //     fetch('https://us-central1-the-essential-machine.cloudfunctions.net/paypal', {
+    //         method: 'POST',
+    //         headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //         amount: x,
+    //         }),
+    //     }).then((response) => response.json())
+    // }
+
     render(){
         const amt = this.props.navigation.getParam('text');
         let user =  AsyncStorage.getItem('UserEmail');  

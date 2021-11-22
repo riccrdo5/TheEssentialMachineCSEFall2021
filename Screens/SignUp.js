@@ -14,6 +14,8 @@ import Feather from 'react-native-vector-icons/Feather';
 Feather.loadFont();
 import PushNotification from "react-native-push-notification";
 import helpPage from './helpPage.js';
+const firestoreDb = firebaseApp.firestore();
+firestoreDb.settings({ experimentalForceLongPolling: true });
 
 export default class SignUp extends React.Component{
     constructor(){
@@ -142,7 +144,7 @@ export default class SignUp extends React.Component{
     }
 
     storeUser(uid) {
-        firebaseApp.firestore().collection('users').doc(uid).set({
+        firestoreDb.collection('users').doc(uid).set({
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             school: this.state.school,
