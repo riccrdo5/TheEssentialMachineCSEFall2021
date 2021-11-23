@@ -9,6 +9,8 @@ import{WebView} from 'react-native-webview';
 import BitcoinPaySuccess from './bitcoin-pay-success.js';
 import BitcoinPayExpired from './bitcoin-pay-expired';
 import {firebaseApp} from '../config/firebase';
+const firestoreDb = firebaseApp.firestore();
+firestoreDb.settings({ experimentalForceLongPolling: true });
 
 /**
  * Change the StoreID and the bearer token of the invoice generation from the BTCPAYJUNGLE configuration 
@@ -51,7 +53,7 @@ export default class BitcoinPay extends React.Component{
     
     // log in receipts collection in firestore
     addReceipt = async(invoiceId) => {
-      firebaseApp.firestore().collection('receipts').add({
+      firestoreDb.collection('receipts').add({
         amount: this.state.amount,
         email: this.state.email,
         paymentMethod: "Bitcoin Pay",
