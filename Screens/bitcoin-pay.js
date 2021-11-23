@@ -100,7 +100,7 @@ export default class BitcoinPay extends React.Component{
                                 this.setState({isStatusLogged : true})
 
                                 // log status in transaction-verify in firestore according to api
-                                firebaseApp.firestore().collection('transaction-verify').add({
+                                firestoreDb.collection('transaction-verify').add({
                                   transaction_amount: this.state.amount,
                                   vm_id: this.state.vmNumber,
                                   transaction_id: invoiceId[1],
@@ -124,7 +124,7 @@ export default class BitcoinPay extends React.Component{
                                 ref.update({last_updated: Date.now()})
                                 this.setState({isStatusLogged : true})
                                 
-                                firebaseApp.firestore().collection('transaction-cancel').add({
+                                firestoreDb.collection('transaction-cancel').add({
                                   transaction_amount: this.state.amount,
                                   vm_id: this.state.vmNumber,
                                   transaction_id: invoiceId[1],
