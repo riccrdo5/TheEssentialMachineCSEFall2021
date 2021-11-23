@@ -28,6 +28,7 @@ import SendNotification from './Screens/sendNotification.js';
 import BitcoinPayExpired from './Screens/bitcoin-pay-expired';
 import helpPage from './Screens/helpPage.js';
 import CardPage from './Screens/card.js';
+import VendingMachine from './Screens/VendingMachine.js';
 
 const stackNavigator = createStackNavigator({
     // HomeScreen: HomeScreen,
@@ -47,7 +48,9 @@ const stackNavigator = createStackNavigator({
     BitcoinPayExpired : BitcoinPayExpired,
     helpPage : helpPage,
     CardPage : CardPage,
-    SendNotification: SendNotification
+    SendNotification: SendNotification,
+    VendingMachine : VendingMachine
+
   },
   {
     headerMode: 'none',
