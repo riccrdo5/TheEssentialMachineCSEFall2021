@@ -5,6 +5,7 @@ import UserAccount from './UserAccount.js';
 import Login from './LoginPage.js';
 import { StackNavigator } from "react-navigation";
 import ScanQR from './ScanQR.js';
+import VendingMachine from './VendingMachine.js';
 
 export default class ApplePaySuccess extends React.Component{
     render(){
@@ -12,7 +13,7 @@ export default class ApplePaySuccess extends React.Component{
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
 
-            <TouchableOpacity style={{alignItems:"flex-end", paddingRight:20}} onPress={()=> this.props.navigation.navigate('ScanQR')}>
+            <TouchableOpacity style={{alignItems:"flex-end", paddingRight:20}} onPress={()=> this.props.navigation.navigate('VendingMachine')}>
             <Text style={{height:50, width:50,marginTop:40, fontWeight:"bold", fontSize:20}}> Done </Text>
             </TouchableOpacity>
 
