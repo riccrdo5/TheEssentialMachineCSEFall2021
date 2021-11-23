@@ -9,22 +9,26 @@ import{WebView} from 'react-native-webview';
 import BitcoinPaySuccess from './bitcoin-pay-success.js';
 import BitcoinPayExpired from './bitcoin-pay-expired';
 import {firebaseApp} from '../config/firebase';
-const firestoreDb = firebaseApp.firestore();
-firestoreDb.settings({ experimentalForceLongPolling: true });
+
+/**
+ * Change the StoreID and the bearer token of the invoice generation from the BTCPAYJUNGLE configuration 
+ * as specified in the documentation
+ */
 
 export default class BitcoinPay extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { urlVal: "", isStatusLogged: false, amount:"", vmid:"", promoid:"", discount:"", UserEmail:""};
+        this.state = { urlVal: "", isStatusLogged: false, amount:"", promoid:"", discount:"", email:"", vmNumber:""};
     }
     componentDidMount() {
         this.intervalID = setInterval(()=> this.fetchInvoiceStatus(), 1000)
         const amount = this.props.navigation.getParam('text').replace('$','');
-        const vmid = this.props.navigation.getParam('id');
-        const UserEmail = this.props.navigation.getParam('UserEmail');
+        const machineId = this.props.navigation.getParam('id'); // machineNumber
+        const user = this.props.navigation.getParam('UserEmail'); // useremail
 
-        this.setState({amount : amount, vmid:vmid, UserEmail: UserEmail})
+        this.setState({amount : amount, email:user, vmNumber:machineId})
         let formData = new FormData();
+        // Change the storeID according to your store number
         formData.append('storeId', '2qwRZJGfsxMjukdxbfecDABbyc3dUiW2gxFuFQ27yeQa');
         formData.append('price', amount);
         formData.append('currency', 'USD');
@@ -35,7 +39,6 @@ export default class BitcoinPay extends React.Component{
               'Content-Type': 'multipart/form-data'
             },
             body: formData  
-        
           }).then( (response) => {this.setState({urlVal : response.url});
           this.fetchInvoiceStatus();
         } )
@@ -46,29 +49,29 @@ export default class BitcoinPay extends React.Component{
         clearInterval(this.intervalID);
       }
     
-    addReceipt = async(amt) => {
-        const vendingMachineId = this.state.vmid;
-        const user =  this.state.UserEmail;
-        firestoreDb.collection('receipts')
-        .add({
-            amount: amt,
-            email: user,
-            paymentMethod: "Bitcoin Pay",
-            vendingMachineNumber: vendingMachineId,
-            timestamp: Date.now()
-          }).then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
-            this.addVendingMachineForNotificationUse(vendingMachineId)
-          })
-          .catch((err) => {
-            console.error("Error found: ", err);
-          });
+    // log in receipts collection in firestore
+    addReceipt = async(invoiceId) => {
+      firebaseApp.firestore().collection('receipts').add({
+        amount: this.state.amount,
+        email: this.state.email,
+        paymentMethod: "Bitcoin Pay",
+        vendingMachineNumber: this.state.vmNumber,
+        timestamp: Date.now(),
+        transaction_id: invoiceId,
+        transaction_status: 'paid'
+      }).then((res) => {
+        console.log("logged in receipts")
+      })
+      .catch((err) => {
+        console.error("Error in completion: ", err);
+      });
     }
-
+    
      async fetchInvoiceStatus(){
          if( this.state.isStatusLogged == false){
         if(this.state.urlVal != ""){
             var invoiceId =  this.state.urlVal.split('=');
+            // change the token value here from BTCPAYJUngle
             var bearer = 'Basic QkNkRTBCeXI3N1FEa3J2MW5rVk8xeWh5eWw3UklkN0NVTGtZaExPdlJ2dg==';
             fetch('https://btcpayjungle.com/invoices', {method: "GET" , 
             withCredentials: true,
@@ -84,62 +87,64 @@ export default class BitcoinPay extends React.Component{
                          var match_invoiceId = JSON.stringify(url).split('=');
                          if( match_invoiceId[1].toString().replace(/"/g,"").trim() === invoiceId[1].toString().trim()) {
                             if(status === "paid"){
-                                //login transaction status only once
-                                // show success compponent
                                 console.log("in complete")
-                                
-                                var ref = firebaseApp.database().ref("machines/").child(this.state.vmid)
+
+                                // log the status in RTDB regarding success
+                                var ref = firebaseApp.database().ref("machines/").child(this.state.vmNumber)
                                 ref.update({ comm : "transaction approved" });
                                 ref.update({last_updated: Date.now()})
+                                this.addReceipt(invoiceId[1])
+                                //login transaction status only once
                                 this.setState({isStatusLogged : true})
-                                this.addReceipt(this.state.amount)
 
-                                firebaseApp.firestore().collection('transaction-verify').doc('BTCPAY').set({
-                                    transaction_amount: this.state.amount,
-                                    transaction_id: invoiceId[1],
-                                    payment_gateway: 'BTCPAY',
-                                    transaction_status: 'paid'
-                                  }).then((res) => {
-                                    console.log("paid")
-                                  })
-                                  .catch((err) => {
-                                    console.error("Error in completion: ", err);
-                                  });
+                                // log status in transaction-verify in firestore according to api
+                                firebaseApp.firestore().collection('transaction-verify').add({
+                                  transaction_amount: this.state.amount,
+                                  vm_id: this.state.vmNumber,
+                                  transaction_id: invoiceId[1],
+                                  payment_gateway: 'BTCPAY',
+                                  transaction_status: 'paid'
+                                }).then((res) => {
+                                  console.log("logged in transaction-verify")
+                                })
+                                .catch((err) => {
+                                  console.error("Error in completion: ", err);
+                                });
 
-                                  this.props.navigation.navigate('BitcoinPaySuccess')
+                                // after updating everything navigate to success page
+                                this.props.navigation.navigate('BitcoinPaySuccess')
 
                             } else if (status === "expired"){
-                              console.log("in expired")
+                                console.log("in expired")
+                                //update RTDB
+                                var ref = firebaseApp.database().ref("machines/").child(this.state.vmNumber)
+                                ref.update({ comm : "transaction denied" });
+                                ref.update({last_updated: Date.now()})
+                                this.setState({isStatusLogged : true})
+                                
+                                firebaseApp.firestore().collection('transaction-cancel').add({
+                                  transaction_amount: this.state.amount,
+                                  vm_id: this.state.vmNumber,
+                                  transaction_id: invoiceId[1],
+                                  payment_gateway: 'BTCPAY',
+                                  transaction_status: 'expired'
+                                }).then((res) => {
+                                  console.log("logged in transaction-cancel")
+                                })
+                                .catch((err) => {
+                                  console.error("Error in expired invoice: ", err);
+                                });
 
-                              this.setState({isStatusLogged : true})
-
-                              var ref = firebaseApp.database().ref("machines/").child(this.state.vmid)
-                              ref.update({ comm : "transaction denied" });
-                              ref.update({last_updated: Date.now()})
-
-                              console.log(error);
-                                firebaseApp.firestore().collection('transaction-verify').doc('BTCPAY').set({
-                                    transaction_amount: this.state.amount,
-                                    //TODO: vm_id: this.state.vmid,
-                                    transaction_id: invoiceId[1],
-                                    payment_gateway: 'BTCPAY',
-                                    transaction_status: 'expired'
-                                  }).then((res) => {
-                                    console.log("in expired")
-                                  })
-                                  .catch((err) => {
-                                    console.error("Error in expired invoice: ", err);
-                                  });
-
-                                  this.props.navigation.navigate('BitcoinPayExpired')
-
+                                // after updating everything navigate to expired page
+                                this.props.navigation.navigate('BitcoinPayExpired')
                             }
                          } 
                         })})
               .catch((error) => {console.error(error);
-                var ref = firebaseApp.database().ref("machines/").child(this.state.vmid)
+                var ref = firebaseApp.database().ref("machines/").child(this.state.vmNumber)
                 ref.update({ comm : "transaction denied" });
                 ref.update({last_updated: Date.now()})
+                console.log(error);
               });
             }
         }
@@ -150,11 +155,12 @@ export default class BitcoinPay extends React.Component{
         return <WebView
         source ={{uri: this.state.urlVal}}
         // TEST: source ={{uri: 'https://btcpayjungle.com/api/v1/invoices?storeId=2qwRZJGfsxMjukdxbfecDABbyc3dUiW2gxFuFQ27yeQa&price=10&currency=USD'}}
-        onError={(event) => {
-          var ref = firebaseApp.database().ref("machines/").child(this.state.vmid);
-          ref.update({ comm : "transaction denied" });
-          ref.update({last_updated: Date.now()});
-        }}
+        onError={(event) => {alert(`Webview error ${event.nativeEvent.description}`)
+        var ref = firebaseApp.database().ref("machines/").child(this.state.vmNumber)
+        ref.update({ comm : "transaction denied" });
+        ref.update({last_updated: Date.now()})
+        console.log(error);
+      }}
         />
         }
 };
