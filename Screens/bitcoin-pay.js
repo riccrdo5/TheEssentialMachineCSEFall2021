@@ -9,7 +9,8 @@ import{WebView} from 'react-native-webview';
 import BitcoinPaySuccess from './bitcoin-pay-success.js';
 import BitcoinPayExpired from './bitcoin-pay-expired';
 import {firebaseApp} from '../config/firebase';
-
+const firestoreDb = firebaseApp.firestore();
+firestoreDb.settings({ experimentalForceLongPolling: true });
 
 export default class BitcoinPay extends React.Component{
     constructor(props) {
