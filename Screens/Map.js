@@ -13,6 +13,7 @@ import navigatePicture from './navigate-icon.png';
 import UserAccount from './UserAccount.js';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
 import helpPage from './helpPage.js';
+import notifications from './notifications.js';
 
 export default class Map extends React.Component{
     constructor(props) {
@@ -58,7 +59,7 @@ export default class Map extends React.Component{
             <TouchableOpacity onPress={()=> this.props.navigation.goBack()}>
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert("Notification!")}}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('notifications')} >
             <Image source={require('./notification-icon.png')} style={{height:50, width:50,marginTop:70}} />
             </TouchableOpacity>
             </View>
