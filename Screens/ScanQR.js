@@ -62,6 +62,7 @@ export default class ScanQR extends React.Component{
         }
         if(userEmail == 'contact@theessentialmachine.com'){
             this.setState({isAdmin: 1})
+            window.location.reload();
         }
     }
 
@@ -135,7 +136,7 @@ export default class ScanQR extends React.Component{
             <Image source={require('./user-icon.png')} style={{height:80, width:80}} />
             </TouchableOpacity>
             
-            {this.state.isAdmin==1 && 
+            {(this.state.isAdmin==1 || email=="contact@theessentialmachine.com") && 
                 <TouchableOpacity onPress={()=>this.props.navigation.navigate('SendNotification')}>
                     <Image source={require('./send-notification-icon.png')} style={{height:60, width:80}} />
                 </TouchableOpacity>

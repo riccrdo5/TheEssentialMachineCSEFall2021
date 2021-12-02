@@ -12,7 +12,7 @@ import {firebaseApp} from '../config/firebase';
 import { GooglePay, RequestDataType} from 'react-native-google-pay';
 import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
-firestoreDb.settings({ experimentalForceLongPolling: true });
+firestoreDb.settings({ experimentalForceLongPolling: true }, {merge:true});
 import {WebView} from 'react-native-webview';
 
 
@@ -24,6 +24,20 @@ if(Platform.OS === 'android'){
 }
 
 export default class PaymentOptions extends React.Component{
+     constructor(){
+        super();
+    }
+
+    componentDidMount(){
+        const amt = this.props.navigation.getParam('text');
+        this.setState({amount: amt})
+    }
+
+    state = {
+        coupon :'', 
+        amount: '',
+        couponApplied: false
+    }
   
     addVendingMachineForNotificationUse = async(vendingMachineId) => {
         console.log("Updating values for Notifications Functionality")
@@ -118,8 +132,10 @@ export default class PaymentOptions extends React.Component{
         });
     }
 
-    pay = (amt) => {
+    pay = () => {
+        amt = this.state.amount
         console.log("Entered Pay "+amt)
+        
 
         const details = {
             id: 'payment',
@@ -150,8 +166,8 @@ export default class PaymentOptions extends React.Component{
         });
     }
 
-    googlePay =(amt) =>{
-
+    googlePay =() =>{
+      amt = this.state.amount
       const requestData: RequestDataType = {
           cardPaymentMethod: {
             tokenizationSpecification: {
@@ -206,8 +222,42 @@ export default class PaymentOptions extends React.Component{
     //     }).then((response) => response.json())
     // }
 
+    handleDiscount = (text) => {
+        this.setState({ coupon: text })
+        this.setState({ couponApplied: false })
+    }
+
+    handleCoupon = async() =>{
+        if(!this.state.couponApplied){
+            console.log("Entered Handle Coupon")
+            coupon = this.state.coupon
+            console.log("Coupon", coupon)
+            if(coupon==undefined){
+                alert('Discount Code cannot be empty')
+            }else{
+                await firestoreDb.collection('promotions')
+                .where("coupon","==", coupon)
+                .get()
+                .then(snapshot =>{
+                    console.log("Yayy!")
+                    const data = snapshot.docs.map(doc => doc.data());  
+                    if(data[0]){
+                        discount = data[0].discount
+                        originalamt = this.state.amount
+                        finalamt = originalamt - (originalamt * discount)/100
+                        this.setState({ amount: finalamt })
+                        this.setState({ couponApplied: true })
+                        window.location.reload();
+                    }else{
+                        alert('Invalid Coupon')
+                    }
+                    
+                }).catch(error =>console.log(error));
+            }
+        }
+    }
+
     render(){
-        const amt = this.props.navigation.getParam('text');
         let user =  AsyncStorage.getItem('UserEmail');  
         const machineId = this.props.navigation.getParam('id');
 
@@ -221,22 +271,23 @@ export default class PaymentOptions extends React.Component{
             <Text style ={{fontSize:30,fontWeight:'bold',marginTop:25, textAlign:'center'}}>Amount to be paid:</Text>
 
             <View style={{marginTop:30, left:95,  height:200, width:200, borderRadius:300, backgroundColor:'white', justifyContent:'center'}}>
-                <Text style={{fontSize:50, textAlign: 'center'}}>{amt}</Text>
+                <Text style={{fontSize:50, textAlign: 'center'}}>{this.state.amount}</Text>
             </View>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:30, paddingRight:80, marginTop:40}}>
             <Text style={{fontSize:25, textAlign: 'left', fontWeight:'500'}}>Discount code: </Text>
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:3, width:150, left:10, borderRadius:5 }}> 
-            <TextInput style={{fontSize:15, left:10, color:'grey'}} placeholder= "Enter Code" />
+            <TextInput onChangeText = {this.handleDiscount} style={{fontSize:15, left:10, color:'grey'}} placeholder= "Enter Code" />
             </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{backgroundColor:"white", padding:8, borderRadius:10,  alignItems:"center",width:100, height:35, left:150, marginTop:25}} >
+            <TouchableOpacity
+                onPress={()=>this.handleCoupon()} style={{backgroundColor:"white", padding:8, borderRadius:10,  alignItems:"center",width:100, height:35, left:150, marginTop:25}} >
             <Text style={{fontSize:15, fontWeight:"bold", color:"black"}}> Apply </Text>
             </TouchableOpacity>
             
             <Text style={{paddingLeft:25, fontSize:25, fontWeight:'500', marginTop:20}}> Pay with: </Text>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:30}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:amt, id:machineId , UserEmail:user})}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:this.state.amount, id:machineId , UserEmail:user})}>
                 <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
             </TouchableOpacity>
             <Modal
@@ -260,9 +311,9 @@ export default class PaymentOptions extends React.Component{
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:40}}>
             {
               Platform.OS === 'ios'?
-                  <ApplePayButton type="plain" width={80} height={50} borderRadius={5} style="white" onPress={() => this.pay(amt)}/>
+                  <ApplePayButton type="plain" width={80} height={50} borderRadius={5} style="white" onPress={() => this.pay()}/>
               : <Image 
-                onPress={()=>this.googlePay(amt)} source={require('./googlepay-icon.png')} style={{height:50, width:80, borderRadius:5}}/>
+                onPress={()=>this.googlePay()} source={require('./googlepay-icon.png')} style={{height:50, width:80, borderRadius:5}}/>
             }
             </View>
             </View> 
