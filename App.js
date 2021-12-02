@@ -30,6 +30,7 @@ import helpPage from './Screens/helpPage.js';
 import CardPage from './Screens/card.js';
 import VendingMachine from './Screens/VendingMachine.js';
 import notifications from './Screens/notifications.js';
+import Surprise from './Screens/Surprise.js';
 
 const stackNavigator = createStackNavigator({
     // HomeScreen: HomeScreen,
@@ -51,7 +52,8 @@ const stackNavigator = createStackNavigator({
     CardPage : CardPage,
     SendNotification: SendNotification,
     VendingMachine : VendingMachine,
-    notifications: notifications
+    notifications: notifications,
+    Surprise : Surprise
 
   },
   {

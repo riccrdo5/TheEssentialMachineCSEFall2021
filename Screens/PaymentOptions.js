@@ -14,7 +14,7 @@ import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true }, {merge:true});
 import {WebView} from 'react-native-webview';
-
+import Surprise from './Surprise.js'
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD', 'DISCOVER', 'AMEX'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
@@ -65,7 +65,8 @@ export default class PaymentOptions extends React.Component{
     handleResponse = (data) => {
         if (data.title === "success") {
             this.setState({ showModal: false, status: "Complete" });
-            this.props.navigation.navigate('ApplePaySuccess')
+            // this.props.navigation.navigate('ApplePaySuccess')
+            this.props.navigation.navigate('Surprise')
         } else if (data.title === "cancel") {
             this.setState({ showModal: false, status: "Cancelled" });
         } else {
@@ -86,7 +87,8 @@ export default class PaymentOptions extends React.Component{
           }).then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
             this.addVendingMachineForNotificationUse(vendingMachineId)
-            this.props.navigation.navigate('ApplePaySuccess')
+            // this.props.navigation.navigate('ApplePaySuccess')
+            this.props.navigation.navigate('Surprise')
           })
           .catch((err) => {
             console.error("Error found: ", err);
@@ -286,7 +288,7 @@ export default class PaymentOptions extends React.Component{
             
             <Text style={{paddingLeft:25, fontSize:25, fontWeight:'500', marginTop:20}}> Pay with: </Text>
 
-            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:30}}>
+            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:10}}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:this.state.amount, id:machineId , UserEmail:user})}>
                 <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
             </TouchableOpacity>
@@ -308,7 +310,7 @@ export default class PaymentOptions extends React.Component{
             </TouchableOpacity>
             </View>
 
-            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:40}}>
+            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:30}}>
             {
               Platform.OS === 'ios'?
                   <ApplePayButton type="plain" width={80} height={50} borderRadius={5} style="white" onPress={() => this.pay()}/>

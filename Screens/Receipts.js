@@ -6,9 +6,6 @@ import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
 import notifications from './notifications.js';
 
-
-
-
 export default class HomeScreen extends React.Component{
     constructor(props){
         super(props)
@@ -40,7 +37,7 @@ export default class HomeScreen extends React.Component{
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
+            <TouchableOpacity onPress={()=> this.props.navigation.goBack()} >
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>this.props.navigation.navigate('notifications')} >

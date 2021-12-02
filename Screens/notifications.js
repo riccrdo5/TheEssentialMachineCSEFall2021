@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {View, TextInput, TouchableOpacity, Clipboard} from 'react-native';
 import { StackNavigator } from "react-navigation";
 import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
@@ -31,22 +31,31 @@ export default class HomeScreen extends React.Component{
         })
     }
 
-render(){
-        // const amount='$10'
-        // const vendingMachine='VM1'
-
-        return<>
-        <View style={{flex:1, backgroundColor:"#46B2E0"}}>
-            {/* <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
-            </View> */}
-            <View style={{marginTop:70}}>
-            {this.state.promotions && this.state.promotions.map(promo => (
-                <View style={{margin: 20, marginTop:15, height:50, width:350, left:3, backgroundColor:'white', borderRadius:20}}>
-                    <Text style={{fontSize:20, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15}}> ${promo.body} : {promo.coupon} </Text>
-                </View>
-            ))}
-            </View>
-        </View>
-        </>
+    handleCopy (coupon) {
+        Clipboard.setString(coupon)
+        alert('Copied to clipboard');
     }
+
+    render(){
+            // const amount='$10'
+            // const vendingMachine='VM1'
+
+            return<>
+            <View style={{flex:1, backgroundColor:"#46B2E0"}}>
+                <TouchableOpacity style={{left:20}} onPress={()=> this.props.navigation.goBack()}>
+                    <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
+                </TouchableOpacity>
+                <View style={{marginTop:20}}>
+                {this.state.promotions && this.state.promotions.map(promo => (
+                    <View style={{flexDirection:"row",margin: 10, marginTop:15, height:50, width:330, left:20, backgroundColor:'white', borderRadius:20}}>
+                        <Text style={{fontSize:20, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15}}> ${promo.body} : {promo.coupon} </Text>
+                        <TouchableOpacity onPress={()=> this.handleCopy(promo.coupon)} >
+                            <Image source={require('./copy-icon.png')} style={{height:50, width:50, left:5}}/>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+                </View>
+            </View>
+            </>
+        }
 };
