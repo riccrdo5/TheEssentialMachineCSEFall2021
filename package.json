@@ -12,11 +12,11 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-native-community/geolocation": "^2.0.2",
+    "@react-native-community/push-notification-ios": "^1.10.1",
     "body-parser": "^1.19.0",
     "consolidate": "^0.16.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "@react-native-community/push-notification-ios": "^1.10.1",
     "firebase": "^8.2.3",
     "google-map-react": "^2.1.10",
     "paypal-rest-sdk": "^1.8.1",

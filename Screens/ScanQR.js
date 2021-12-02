@@ -11,6 +11,7 @@ import SendNotification from './sendNotification.js'
 import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
 import helpPage from './helpPage.js';
+import notifications from './notifications.js';
 
 export default class ScanQR extends React.Component{
 
@@ -106,7 +107,7 @@ export default class ScanQR extends React.Component{
             <TouchableOpacity>
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{alert("Notification!")}}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('notifications')} >
             <Image source={require('./notification-icon.png')} style={{height:50, width:50,marginTop:70}} />
             </TouchableOpacity>
             </View>
