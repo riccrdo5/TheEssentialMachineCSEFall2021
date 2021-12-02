@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TouchableOpacity, AsyncStorage, Modal} from 'react-native';
+import {View, TextInput, TouchableOpacity, AsyncStorage, Modal} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import Login from './LoginPage.js';
 import SignUp from './SignUp.js';
@@ -220,11 +220,20 @@ export default class PaymentOptions extends React.Component{
 
             <Text style ={{fontSize:30,fontWeight:'bold',marginTop:25, textAlign:'center'}}>Amount to be paid:</Text>
 
-            <View style={{marginTop:30, left:80,  height:200, width:200, borderRadius:300, backgroundColor:'white', justifyContent:'center'}}>
+            <View style={{marginTop:30, left:95,  height:200, width:200, borderRadius:300, backgroundColor:'white', justifyContent:'center'}}>
                 <Text style={{fontSize:50, textAlign: 'center'}}>{amt}</Text>
             </View>
-
-            <Text style={{paddingLeft:50, fontSize:25, fontWeight:'500', marginTop:50}}> Pay with: </Text>
+            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:30, paddingRight:80, marginTop:40}}>
+            <Text style={{fontSize:25, textAlign: 'left', fontWeight:'500'}}>Discount code: </Text>
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:3, width:150, left:10, borderRadius:5 }}> 
+            <TextInput style={{fontSize:15, left:10, color:'grey'}} placeholder= "Enter Code" />
+            </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={{backgroundColor:"white", padding:8, borderRadius:10,  alignItems:"center",width:100, height:35, left:150, marginTop:25}} >
+            <Text style={{fontSize:15, fontWeight:"bold", color:"black"}}> Apply </Text>
+            </TouchableOpacity>
+            
+            <Text style={{paddingLeft:25, fontSize:25, fontWeight:'500', marginTop:20}}> Pay with: </Text>
 
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:30}}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:amt, id:machineId , UserEmail:user})}>
