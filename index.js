@@ -46,6 +46,18 @@ async function convertApnTokenToFcmToken(token){
 	});
 }
 
+PushNotificationIOS.addEventListener('register', token => {
+      console.log('token: ', token);
+      alert(token);
+    });
+
+ PushNotificationIOS.addEventListener(
+      'registrationError',
+      registrationError => {
+        console.log(registrationError, '--');
+      },
+    );
+
 PushNotification.configure({
     // (optional) Called when Token is generated (iOS and Android)
     onRegister: function (token) {
@@ -81,8 +93,7 @@ PushNotification.configure({
         }
     // process the notification
         if (notification.userInteraction) {
-           alert('Entered App')
-           Linking.openURL('notifications')
+           console.log('Entered App')
         }
 
     // (required) Called when a remote is received or opened, or local notification is opened

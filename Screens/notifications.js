@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TextInput, TouchableOpacity, Clipboard} from 'react-native';
+import {View, TextInput, TouchableOpacity, Clipboard,StyleSheet, ScrollView} from 'react-native';
 import { StackNavigator } from "react-navigation";
 import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
@@ -45,9 +45,11 @@ export default class notifications extends React.Component{
                 <TouchableOpacity style={{left:20}} onPress={()=> this.props.navigation.goBack()}>
                     <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70}}/>
                 </TouchableOpacity>
+                <ScrollView  showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} style={styles.scrollView}>
                 <View style={{marginTop:20}}>
+
                 {this.state.promotions && this.state.promotions.map(promo => (
-                    <View style={{flexDirection:"row",margin: 10, marginTop:15, height:50, width:330, left:20, backgroundColor:'white', borderRadius:20}}>
+                    <View style={{flexDirection:"row",margin: 10, marginTop:15, height:50, width:300, backgroundColor:'white', borderRadius:20}}>
                         <Text multiline style={{fontSize:14, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15, width:280,}}>{promo.body} : {promo.coupon} </Text>
                         <TouchableOpacity onPress={()=> this.handleCopy(promo.coupon)} >
                             <Image source={require('./copy-icon.png')} style={{height:50, width:50, left:5}}/>
@@ -55,7 +57,16 @@ export default class notifications extends React.Component{
                     </View>
                 ))}
                 </View>
+                </ScrollView>
             </View>
             </>
         }
 };
+
+const styles = StyleSheet.create({
+    scrollView: {
+      flex: 1,
+      marginHorizontal: 30,
+      flexGrow : 1.5
+    }
+  });

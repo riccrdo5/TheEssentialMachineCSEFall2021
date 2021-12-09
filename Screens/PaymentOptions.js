@@ -278,7 +278,7 @@ export default class PaymentOptions extends React.Component{
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:30, paddingRight:80, marginTop:40}}>
             <Text style={{fontSize:25, textAlign: 'left', fontWeight:'500'}}>Discount code: </Text>
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:3, width:150, left:10, borderRadius:5 }}> 
-            <TextInput onChangeText = {this.handleDiscount} style={{fontSize:15, left:10, color:'grey'}} placeholder= "Enter Code" />
+            <TextInput onChangeText = {this.handleDiscount} style={{fontSize:15, left:10, color:'grey', width:150}} placeholder= "Enter Code" />
             </TouchableOpacity>
             </View>
             <TouchableOpacity

@@ -1,6 +1,7 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { StackNavigator } from "react-navigation";
 import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
@@ -78,6 +79,7 @@ export default class SendNotification extends React.Component{
             }
         });
         console.log(JSON.stringify(tokens))
+        alert('Notifications Sent!')
         // console.log(typeof(this.state.image))
         await fetch('https://us-central1-the-essential-machine.cloudfunctions.net/sendNotification', {
             method: 'POST',
@@ -94,7 +96,6 @@ export default class SendNotification extends React.Component{
         }).then((response) => response.json())
             .then((responseJson) => {
             console.log("Final Response" + JSON.stringify(responseJson));
-            alert('Notifications Sent!')
         });
     }
 
@@ -108,24 +109,25 @@ export default class SendNotification extends React.Component{
             </TouchableOpacity>
             </View>
 
-            <ScrollView>
-            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300, left:30, borderRadius:20, marginTop:25 }}>
-            <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Notification Title" placeholderTextColor="black"
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flex: 1}}>
+            <ScrollView  showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} style={styles.scrollView}>
+            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300, left:5, borderRadius:20, marginTop:25 }}>
+            <TextInput style={{fontSize:15, color:'grey',width:300}} placeholder="  Notification Title" placeholderTextColor="black"
                   onChangeText = {this.handleNotificationTitle}/>
             </View>
 
-            <View style={{flexDirection:"row", backgroundColor:"white", padding:8, height:200, width:300, left:30, borderRadius:20, marginTop:25 }}>
-            <TextInput numberOfLines={3} multiline={true} style={{fontSize:15, color:'grey'}} placeholder="  Notification Body" placeholderTextColor="black"
+            <View style={{flexDirection:"row", backgroundColor:"white", padding:8, height:200, width:300,left:5, borderRadius:20, marginTop:25 }}>
+            <TextInput numberOfLines={3} multiline={true} style={{fontSize:15, color:'grey',width:300}} placeholder="  Notification Body" placeholderTextColor="black"
                   onChangeText = {this.handleNotificationBody}/>
             </View>
 
-            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300, left:30, borderRadius:20, marginTop:25 }}>
-            <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Discount Code" placeholderTextColor="black"
+            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300,left:5, borderRadius:20, marginTop:25 }}>
+            <TextInput style={{fontSize:15, color:'grey',width:300}} placeholder="  Discount Code" placeholderTextColor="black"
                   onChangeText = {this.handleDiscountCode}/>
             </View>
 
-            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300, left:30, borderRadius:20, marginTop:25 }}>
-            <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Discount Percentage" placeholderTextColor="black"
+            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300,left:5, borderRadius:20, marginTop:25 }}>
+            <TextInput style={{fontSize:15, color:'grey',width:300}} placeholder="  Discount Percentage" placeholderTextColor="black"
                   onChangeText = {this.handleDiscountPercentage}/>
             </View>
 
@@ -145,14 +147,22 @@ export default class SendNotification extends React.Component{
                 <Text style={{fontSize:20, fontWeight:"bold", color:"white"}}> Upload Image </Text>
             </TouchableOpacity> */}
 
-             <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:220, left:70, marginTop:25}} 
+             <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:220, left:35, marginTop:25}} 
              onPress={() => this.handleSendNotification()}>
                 <Text style={{fontSize:20, fontWeight:"bold", color:"white"}}> SEND NOTIFICATION </Text>
             </TouchableOpacity>
             </ScrollView>
+            </KeyboardAwareScrollView>
 
         </View>
         </>
     }
 };
 
+const styles = StyleSheet.create({
+    scrollView: {
+      flex: 1,
+      marginHorizontal: 30,
+      flexGrow : 1.5
+    }
+  });
