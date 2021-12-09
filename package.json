@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.9",
@@ -44,6 +45,7 @@
     "react-native-unordered-list": "^1.0.4",
     "react-native-vector-icons": "^8.1.0",
     "react-native-webview": "^11.14.3",
+    "react-navigation": "^4.4.4",
     "react-navigation-stack": "^2.10.4"
   },
   "devDependencies": {

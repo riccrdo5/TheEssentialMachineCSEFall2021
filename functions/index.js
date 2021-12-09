@@ -8,14 +8,6 @@ admin.initializeApp({
   databaseURL: "https://the-essential-machine-default-rtdb.firebaseio.com"
 });
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
-
 const stripe = require('stripe')('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');
 
 exports.applePay = functions.https.onRequest((request, response) => {
@@ -35,7 +27,15 @@ exports.applePay = functions.https.onRequest((request, response) => {
         });
 });
 
-exports.sendNotification = functions.https.onRequest((request, response) =>{
+const runtimeOptions = {
+  timeoutSeconds: 400,
+  runWith: "2GB",
+};
+
+
+exports.sendNotification = functions
+    .runWith(runtimeOptions)
+    .https.onRequest((request, response) =>{
     fcmTokens = request.body.fcmTokens;
     console.log(fcmTokens)
     console.log(request.body.title)
@@ -45,10 +45,45 @@ exports.sendNotification = functions.https.onRequest((request, response) =>{
         notification: {
             title: request.body.title,
             body: request.body.message,
-            image: request.body.image,
+        },
+        android: {
+              priority: "high",
+            //   notification: {
+            //     imageUrl: request.body.image,
+            //   }
+        },
+        apns: {
+            payload: {
+                aps: {
+                    'mutable-content': 1,
+                    contentAvailable: true,
+                }
+            },
+            // fcm_options: {
+            //     image: request.body.image,
+            // },
+            headers: {
+                "apns-push-type": "background",
+                "apns-priority": "5", // Must be `5` when `contentAvailable` is set to true.
+                "apns-topic": "org.reactjs.native.example.TEMAPP", // bundle identifier
+            },
         },
         tokens: fcmTokens,
     };
+    // const payload = {
+    //     notification: {
+    //         title: "Friend Request",
+    //         body: "You just got a new friend request",
+    //         icon: "default"
+    //     }
+    // };
+
+    // admin.messaging().sendToDevice("e1Vn2sLhLV0:APA91bFMHcdkTK5xuwMB6gEpfbP_O5TBgEGT14ck0oKImi6qfe7nPkVPCNcTV-Oe2RSrFlUm1wAiRrC4toaRbhWSFCvEUADfim8JFm5ZDSixCRnlJA7hILK-HeKL4GnTUE_CeXaZZAmg",
+    // payload).then(Response =>{ 
+    //     console.log('this is the notification')
+    // }).catch((error) => {
+    //     console.log('Error sending message:', error);
+    // });
     admin.messaging().sendMulticast(message).then((response) => {
         console.log('Successfully sent message:', response);
         console.log('Successfully sent messages count:', response.successCount);
@@ -58,70 +93,3 @@ exports.sendNotification = functions.https.onRequest((request, response) =>{
     });
 });
 
-paypal.configure({
-    'mode': 'live', //sandbox or live
-    'client_id': 'Ab3G0m6vXtkPAfpx5HRCVhzSDIxXIC6u7dI_TZMXdiW-3ts_VMmdnA1pWMMoB0UXEy6AldzaTVUV0TIe',
-    'client_secret': 'ELlPAi4hNSNk64sOVZABiO3OoKGNLyEQ1P59Xnm6yfNJqzUO6rwd6U3TMYRqGRYIvXeyusr4scTWr8h4'
-});
-
-exports.paypal = functions.https.onRequest((request, response) => {
-    console.log(request.body.amount)
-    var create_payment_json = {
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal"
-        },
-        "redirect_urls": {
-            "return_url": "https://us-central1-the-essential-machine.cloudfunctions.net/success",
-            "cancel_url": "https://us-central1-the-essential-machine.cloudfunctions.net/cancel",
-        },
-        "transactions": [{
-            "amount": {
-                "currency": "USD",
-                "total": request.body.amount,
-            },
-            "description": "Paying Vending Machine"
-        }]
-    };
-    
-    paypal.payment.create(create_payment_json, function (error, payment) {
-        if (error) {
-            throw error;
-        } else {
-            console.log("Create Payment Response");
-            console.log(payment);
-            response.redirect(payment.links[1].href);
-        }
-    });
-
-});
-
-exports.success = functions.https.onRequest((request, response) => {
-    console.log(request.body.amount)
-    console.log("Success!!");
-    var PayerID = request.query.PayerID;
-    var paymentId = request.query.paymentId;
-    var execute_payment_json = {
-        "payer_id": PayerID,
-        "transactions": [{
-            "amount": {
-                "currency": "USD",
-                "total": "1.00"
-            }
-        }]
-    };
-
-    paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
-        if (error) {
-            console.log(error.response);
-            throw error;
-        } else {
-            console.log("Get Payment Response");
-            console.log(JSON.stringify(payment));
-        }
-    });
-});
-
-exports.cancel = functions.https.onRequest((request, response) => {
-    console.log("Transaction Cancelled");
-});

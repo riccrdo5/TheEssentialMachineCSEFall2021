@@ -6,6 +6,7 @@ import PaymentOptions from './PaymentOptions.js';
 import HomeScreen from './Homepage.js'; 
 import { StackNavigator } from "react-navigation"; 
 import{WebView} from 'react-native-webview';
+// import WKWebView from 'react-native-wkwebview-reborn';
 import BitcoinPaySuccess from './bitcoin-pay-success.js';
 import BitcoinPayExpired from './bitcoin-pay-expired';
 import {firebaseApp} from '../config/firebase';
@@ -155,6 +156,7 @@ export default class BitcoinPay extends React.Component{
 
     render(){
         return <WebView
+        useWebKit={true}
         source ={{uri: this.state.urlVal}}
         // TEST: source ={{uri: 'https://btcpayjungle.com/api/v1/invoices?storeId=2qwRZJGfsxMjukdxbfecDABbyc3dUiW2gxFuFQ27yeQa&price=10&currency=USD'}}
         onError={(event) => {alert(`Webview error ${event.nativeEvent.description}`)

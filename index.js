@@ -8,6 +8,8 @@ import {name as appName} from './app.json';
 import PushNotification from "react-native-push-notification";
 import {firebaseApp} from '../config/firebase';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import notifications from './Screens/notifications.js';
+import {Navigation} from 'react-navigation';
 
 async function convertApnTokenToFcmToken(token){
 
@@ -36,6 +38,7 @@ async function convertApnTokenToFcmToken(token){
 	    console.log("Prueba " + JSON.stringify(response))
         if(response.results[0].status == 'OK') {
             deviceToken = response.results[0].registration_token
+            console.log("Device Token At Start"+deviceToken)
             await AsyncStorage.setItem('deviceToken',deviceToken);
         }
 	}).catch(function(error) {
@@ -73,13 +76,23 @@ PushNotification.configure({
             channelId : "test-local-channel",
             title :notification.title,
             message: notification.message,
-            image: notification.bigPictureUrl,
+            // image: notification.bigPictureUrl,
             });
         }
     // process the notification
+        if (notification.userInteraction) {
+           alert('Entered App')
+           Linking.openURL('notifications')
+        }
 
     // (required) Called when a remote is received or opened, or local notification is opened
         notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
+    senderID: "944367937162",
+    permissions: {
+        alert: true,
+        badge: true,
+        sound: true
     },
     requestPermissions: true,
 

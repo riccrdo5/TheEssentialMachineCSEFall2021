@@ -10,7 +10,7 @@ import ScanQR from './ScanQR.js';
 import UserAccount from './UserAccount.js';
 
 
-export default class HomeScreen extends React.Component{
+export default class notifications extends React.Component{
     constructor(props){
     super(props)
         
@@ -48,7 +48,7 @@ export default class HomeScreen extends React.Component{
                 <View style={{marginTop:20}}>
                 {this.state.promotions && this.state.promotions.map(promo => (
                     <View style={{flexDirection:"row",margin: 10, marginTop:15, height:50, width:330, left:20, backgroundColor:'white', borderRadius:20}}>
-                        <Text style={{fontSize:20, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15}}> ${promo.body} : {promo.coupon} </Text>
+                        <Text multiline style={{fontSize:14, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15, width:280,}}>{promo.body} : {promo.coupon} </Text>
                         <TouchableOpacity onPress={()=> this.handleCopy(promo.coupon)} >
                             <Image source={require('./copy-icon.png')} style={{height:50, width:50, left:5}}/>
                         </TouchableOpacity>

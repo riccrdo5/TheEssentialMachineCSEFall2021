@@ -115,7 +115,7 @@ export default class Login extends React.Component{
 
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:60 }}> 
                 <Image source={require('./email-icon.png')} style={{height:30, width:30}} />
-                <TextInput autoCapitalize='none' style={{fontSize:16, color:'grey'}} placeholder="  Email Address"  placeholderTextColor="black"
+                <TextInput autoCapitalize='none' style={{fontSize:16, width: 250, color:'grey', left:10}} placeholder="Email Address"  placeholderTextColor="black"
                 keyboardType='email-address'
                 textContentType='emailAddress'
                 autoFocus={true}
@@ -124,7 +124,7 @@ export default class Login extends React.Component{
             
             <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:30 }}> 
                 <Image source={require('./password-icon.png')} style={{height:30, width:30}} />
-                <TextInput autoCapitalize='none' secureTextEntry={this.state.hiddenPassword} style={{fontSize:16, color:'grey', right:90}} placeholder="Password"
+                <TextInput autoCapitalize='none' secureTextEntry={this.state.hiddenPassword} style={{fontSize:16, color:'grey', width:235}} placeholder="Password"
                 placeholderTextColor="black"
                 onChangeText = {this.handlePassword}/>
                 <TouchableOpacity onPress={()=>this.setState({ hiddenPassword: !this.state.hiddenPassword })}>

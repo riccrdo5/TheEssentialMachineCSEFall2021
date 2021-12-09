@@ -14,7 +14,7 @@ import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true }, {merge:true});
 import {WebView} from 'react-native-webview';
-import Surprise from './Surprise.js'
+// import WKWebView from 'react-native-wkwebview-reborn';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD', 'DISCOVER', 'AMEX'];
 const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
@@ -65,8 +65,8 @@ export default class PaymentOptions extends React.Component{
     handleResponse = (data) => {
         if (data.title === "success") {
             this.setState({ showModal: false, status: "Complete" });
-            // this.props.navigation.navigate('ApplePaySuccess')
-            this.props.navigation.navigate('Surprise')
+            this.props.navigation.navigate('ApplePaySuccess')
+            // this.props.navigation.navigate('Surprise')
         } else if (data.title === "cancel") {
             this.setState({ showModal: false, status: "Cancelled" });
         } else {
@@ -87,8 +87,8 @@ export default class PaymentOptions extends React.Component{
           }).then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
             this.addVendingMachineForNotificationUse(vendingMachineId)
-            // this.props.navigation.navigate('ApplePaySuccess')
-            this.props.navigation.navigate('Surprise')
+            this.props.navigation.navigate('ApplePaySuccess')
+            // this.props.navigation.navigate('Surprise')
           })
           .catch((err) => {
             console.error("Error found: ", err);
@@ -246,7 +246,7 @@ export default class PaymentOptions extends React.Component{
                     if(data[0]){
                         discount = data[0].discount
                         originalamt = this.state.amount
-                        finalamt = originalamt - (originalamt * discount)/100
+                        finalamt = (originalamt - (originalamt * discount)/100).toFixed(2);
                         this.setState({ amount: finalamt })
                         this.setState({ couponApplied: true })
                         window.location.reload();
@@ -273,7 +273,7 @@ export default class PaymentOptions extends React.Component{
             <Text style ={{fontSize:30,fontWeight:'bold',marginTop:25, textAlign:'center'}}>Amount to be paid:</Text>
 
             <View style={{marginTop:30, left:95,  height:200, width:200, borderRadius:300, backgroundColor:'white', justifyContent:'center'}}>
-                <Text style={{fontSize:50, textAlign: 'center'}}>{this.state.amount}</Text>
+                <Text style={{fontSize:50, textAlign: 'center'}}>${this.state.amount}</Text>
             </View>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:30, paddingRight:80, marginTop:40}}>
             <Text style={{fontSize:25, textAlign: 'left', fontWeight:'500'}}>Discount code: </Text>
@@ -297,6 +297,7 @@ export default class PaymentOptions extends React.Component{
                     onRequestClose={() => this.setState({ showModal: false })}
                 >
                     <WebView
+                        useWebKit={true}
                         source={{ uri: "https://17d2-160-72-138-210.ngrok.io" }}
                         onNavigationStateChange={data =>
                             this.handleResponse(data)

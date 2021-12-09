@@ -17,31 +17,54 @@ export default class SendNotification extends React.Component{
     state = {
         title: '',
         body : '', 
-        image: ''
+        discountCode: '',
+        discountPercentage:''
     }
 
     handleNotificationTitle = (text) => {
         this.setState({ title: text })
     }
 
-    handleNotificationBody = (text) => {
+     handleNotificationBody = (text) => {
         this.setState({ body: text })
     }
 
-    uploadPhotoFromGallery (){
-        ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true
-        }).then(image => {
-        console.log(image);
-        this.setState({image: image.path})
-        });
+    handleDiscountCode = (text) => {
+        this.setState({ discountCode: text })
     }
 
+    handleDiscountPercentage = (text) => {
+        this.setState({discountPercentage: text})
+    }
+
+    // uploadPhotoFromGallery (){
+    //     ImagePicker.openPicker({
+    //     width: 300,
+    //     height: 400,
+    //     cropping: true
+    //     }).then(image => {
+    //     console.log(image);
+    //     this.setState({image: image.path})
+    //     });
+    // }
+
     handleSendNotification = async() =>{
+
         console.log("Title:"+this.state.title);
         console.log("Body:"+this.state.body);
+
+        await firestoreDb.collection('promotions')
+        .add({
+            coupon: this.state.discountCode,
+            discount: this.state.discountPercentage,
+            title: this.state.title,
+            body: this.state.body
+          }).then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+          })
+          .catch((err) => {
+            console.error("Error found: ", err);
+          });
         // console.log(FirebaseInstanceId.getInstance().getToken())
         tokens = []
         await firestoreDb.collection("notifications").get().then(async(querySnapshot) => {
@@ -55,7 +78,7 @@ export default class SendNotification extends React.Component{
             }
         });
         console.log(JSON.stringify(tokens))
-        console.log(typeof(this.state.image))
+        // console.log(typeof(this.state.image))
         await fetch('https://us-central1-the-essential-machine.cloudfunctions.net/sendNotification', {
             method: 'POST',
             headers: {
@@ -65,12 +88,13 @@ export default class SendNotification extends React.Component{
             body: JSON.stringify({
                 title: this.state.title,
                 message: this.state.body,
-                image: this.state.image,
+                // image: this.state.image,
                 fcmTokens: tokens
             }),
         }).then((response) => response.json())
             .then((responseJson) => {
             console.log("Final Response" + JSON.stringify(responseJson));
+            alert('Notifications Sent!')
         });
     }
 
@@ -95,20 +119,31 @@ export default class SendNotification extends React.Component{
                   onChangeText = {this.handleNotificationBody}/>
             </View>
 
+            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300, left:30, borderRadius:20, marginTop:25 }}>
+            <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Discount Code" placeholderTextColor="black"
+                  onChangeText = {this.handleDiscountCode}/>
+            </View>
+
+            <View style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, height:50, width:300, left:30, borderRadius:20, marginTop:25 }}>
+            <TextInput style={{fontSize:15, color:'grey'}} placeholder="  Discount Percentage" placeholderTextColor="black"
+                  onChangeText = {this.handleDiscountPercentage}/>
+            </View>
+
             
-            {this.state.image!='' && 
+            {/* {this.state.image!='' && 
             <View>
                 <TouchableOpacity style={{marginTop:20, alignItems: 'center',}}
                 onPress={() => this.uploadPhotoFromGallery()}>
                 <Image source={{uri: this.state.image}} style={{justifyContent: 'center', height:200, width:200}} />
                 </TouchableOpacity>
             </View>
-            }
+            } */}
 
-            <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:220, left:70, marginTop:25}} 
+
+            {/* <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:220, left:70, marginTop:25}} 
              onPress={() => this.uploadPhotoFromGallery()}>
                 <Text style={{fontSize:20, fontWeight:"bold", color:"white"}}> Upload Image </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
              <TouchableOpacity style={{backgroundColor:"black", padding:8, borderRadius:10,  alignItems:"center",width:220, left:70, marginTop:25}} 
              onPress={() => this.handleSendNotification()}>

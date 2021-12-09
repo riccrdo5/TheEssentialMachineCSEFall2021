@@ -12,6 +12,7 @@ import Map from './Map.js'
 import PaymentOptions from './PaymentOptions.js';
 import helpPage from './helpPage.js';
 import notifications from './notifications.js';
+import InvalidQRCode from './InvalidQRCode.js';
 
 export default class ScanQR extends React.Component{
 
@@ -67,35 +68,44 @@ export default class ScanQR extends React.Component{
         }
     }
 
-    getTransactionDetails = (vm_id, email) => {
+    getTransactionDetails = async(vm_id, email) => {        
         console.log("Entered VM!")
         var machineId = ''
         var amt = ''
-        firebaseApp.database().ref("machines/").orderByChild('name').equalTo(vm_id).on("value", snapshot =>{
+        await firebaseApp.database().ref("machines/").orderByChild('name').equalTo(vm_id).on("value", snapshot =>{
             machineId = Object.keys(snapshot.val())[0]
+            console.log("jdvkjsdvb"+machineId)
             let responseList = Object.values(snapshot.val())
             console.log(responseList[0].transaction_amount)
             amt =  responseList[0].transaction_amount
         });
         console.log("MachineId " +  machineId)
         console.log("Amount" + amt)
-        var ref = firebaseApp.database().ref("machines/").child(machineId)
+        var ref = await firebaseApp.database().ref("machines/").child(machineId)
         ref.update({ active_user_id : email });
         return [amt, machineId, vm_id]
     }
 
     onSuccess = async(e) => {
             console.log(e.data)
-            let user = await AsyncStorage.getItem('UserEmail');  
-            var obj = this.getTransactionDetails(e.data, user)
-            var amt = obj[0]
-            var machineId = obj[1]
-            var vm_num = obj[2]
-            console.log("Got amount " + amt)
-            console.log("Got id " + machineId)
-            console.log("Got VM " + vm_num)
+            if(e.data=="VM1" || e.data=="VM2" || e.data=="VM3"){
+                let user = await AsyncStorage.getItem('UserEmail'); 
+                var obj = await this.getTransactionDetails(e.data, user)
+                var amt = obj[0]
+                var machineId = obj[1]
+                var vm_num = obj[2]
+                console.log("Got amount " + amt)
+                console.log("Got id " + machineId)
+                console.log("Got VM " + vm_num)
+                this.props.navigation.navigate('PaymentOptions', {text: amt, id:machineId, vm_id:vm_num});     
             this.props.navigation.navigate('PaymentOptions', {text: amt, id:machineId, vm_id:vm_num});     
+                this.props.navigation.navigate('PaymentOptions', {text: amt, id:machineId, vm_id:vm_num});     
+                this.scanner.reactivate();
             this.scanner.reactivate();       
+                this.scanner.reactivate();
+            }else{
+                this.props.navigation.navigate('InvalidQRCode')
+            }       
     };
 
 

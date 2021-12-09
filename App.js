@@ -30,7 +30,7 @@ import helpPage from './Screens/helpPage.js';
 import CardPage from './Screens/card.js';
 import VendingMachine from './Screens/VendingMachine.js';
 import notifications from './Screens/notifications.js';
-import Surprise from './Screens/Surprise.js';
+import InvalidQRCode from './Screens/InvalidQRCode.js';
 
 const stackNavigator = createStackNavigator({
     // HomeScreen: HomeScreen,
@@ -53,8 +53,7 @@ const stackNavigator = createStackNavigator({
     SendNotification: SendNotification,
     VendingMachine : VendingMachine,
     notifications: notifications,
-    Surprise : Surprise
-
+    InvalidQRCode : InvalidQRCode
   },
   {
     headerMode: 'none',
