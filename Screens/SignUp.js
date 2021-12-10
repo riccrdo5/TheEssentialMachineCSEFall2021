@@ -259,11 +259,11 @@ export default class SignUp extends React.Component{
             <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:10}}/>
             </TouchableOpacity>
             <Text style={{fontSize:30, color:'white', fontWeight:'bold', left:110}}> SIGN UP </Text>
-            <View style={{left: 20}}>
+            <View style={{left: 10}}>
             <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }}>
                 <Text style={{color:"red", fontSize: 20}}> * </Text>
                 <Image source={require('./name-icon.png')} style={{height:15, width:15}} />
-                <TextInput autoFocus={true} autoCapitalize='none' style={{fontSize:15, color:'grey', width:230, left:10}} placeholder="First Name"    placeholderTextColor="black" onChangeText={(val) => textInputChange(val)}
+                <TextInput autoFocus={true} autoCapitalize='none' style={{fontSize:15, color:'grey', width:180, left:10}} placeholder="First Name"    placeholderTextColor="black" onChangeText={(val) => textInputChange(val)}
                   onChangeText = {this.handleFirstName}/>
                 {this.state.tickValidFirstName? 
                 <Animatable.View animation="bounceIn">

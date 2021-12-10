@@ -4,6 +4,8 @@ import {View, StyleSheet, TextInput, TouchableOpacity, ScrollView} from 'react-n
 import { StackNavigator } from "react-navigation";
 import {firebaseApp} from '../config/firebase';
 import * as firebase from 'firebase';
+const firestoreDb = firebaseApp.firestore();
+firestoreDb.settings({ experimentalForceLongPolling: true }, {merge:true});
 import notifications from './notifications.js';
 
 export default class HomeScreen extends React.Component{
@@ -18,21 +20,22 @@ export default class HomeScreen extends React.Component{
         email : ''
     }
 
-    componentDidMount(){
+    componentDidMount = async() => {
         const email = this.props.navigation.getParam('text');
-        firebaseApp.firestore().collection('receipts')
+        console.log(email)
+        await firestoreDb.collection('receipts')
         .where("email","==", email)
         .get()
         .then(snapshot =>{
+            console.log(JSON.stringify(snapshot))
             const data = snapshot.docs.map(doc => doc.data());  
+            console.log(data)
             this.setState({receipts: data})
             console.log(JSON.stringify(this.state.receipts))
         })
     }
 
     render(){
-        const amount='$10'
-        const vendingMachine='VM1'
 
         return<>
         <View style={{flex:1, backgroundColor:"#46B2E0"}}>

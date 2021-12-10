@@ -49,7 +49,7 @@ export default class PaymentOptions extends React.Component{
         couponApplied: false
     }
 
-    checkAndExecuteFunction = async (accessToken,paymentId) => {
+    checkAndExecuteFunction = async (accessToken,paymentId,amount) => {
         console.log("Entered checkAndExecuteFunction")
         axios.get(PaypalConfig.url + '/v1/payments/payment/' + paymentId, {
             headers: { Authorization: `Bearer ${accessToken}` }
@@ -67,6 +67,8 @@ export default class PaymentOptions extends React.Component{
                 .then(response => {
                     console.log(response.data)
                     console.log("payment executed")
+                    var number = parseFloat(amount, 10)
+                    this.addReceipt(number, "Pay Pal")
                     this.props.navigation.navigate('ApplePaySuccess')
                 })
                 .catch(err => {
@@ -133,7 +135,7 @@ export default class PaymentOptions extends React.Component{
                 if (timer) {
                     clearInterval(timer)
                 }
-                timer = setInterval(() => this.checkAndExecuteFunction(accessToken, payId), 5000)
+                timer = setInterval(() => this.checkAndExecuteFunction(accessToken, payId, amount), 5000)
                 })
             .catch(error => {
             console.error(error)
@@ -163,14 +165,14 @@ export default class PaymentOptions extends React.Component{
         console.log("Updation Complete")
     }
 
-    addReceipt = async(amt) => {
+    addReceipt = async(amt, paymentMethod) => {
         const vendingMachineId = this.props.navigation.getParam('vm_id');
         let user = await AsyncStorage.getItem('UserEmail');  
         firestoreDb.collection('receipts')
         .add({
             amount: amt,
             email: user,
-            paymentMethod: "Apple Pay",
+            paymentMethod: paymentMethod,
             vendingMachineNumber: vendingMachineId,
             timestamp: Date.now()
           }).then((docRef) => {
@@ -185,7 +187,7 @@ export default class PaymentOptions extends React.Component{
     }
 
 
-    doPayment = async (token,amt) => {
+    doPayment = async (token,amt, paymentMethod) => {
         const machineId = this.props.navigation.getParam('id');
         console.log("Yayy " + machineId)
         console.log("Entered Do Payment")
@@ -210,7 +212,7 @@ export default class PaymentOptions extends React.Component{
                 var ref = firebaseApp.database().ref("machines/").child(machineId)
                 ref.update({ comm : "transaction approved" });
                 ref.update({last_updated: Date.now()})
-                this.addReceipt(number)
+                this.addReceipt(number, paymentMethod)
             }else{
                 var ref = firebaseApp.database().ref("machines/").child(machineId)
                 ref.update({ comm : "transaction denied" });
@@ -247,7 +249,7 @@ export default class PaymentOptions extends React.Component{
                         paymentResponse.complete('success');
                         const token = paymentResponse.details.paymentToken
                         console.log("Token" + token );
-                        this.doPayment(token, amt)
+                        this.doPayment(token, amt, "Apple Pay")
                     })
                     .catch(e => {
                         alert(e.message);
@@ -290,28 +292,13 @@ export default class PaymentOptions extends React.Component{
               .then((token) => {
                 token = JSON.parse(token)
                 console.log("token received"+token.id)
-                this.doPayment(token.id, amt)
+                this.doPayment(token.id, amt, "Google Pay")
               }).catch(error => console.log(error.code, error.message));
           } else {
             alert("Google Pay Not Ready!")
           }
           }).catch(error => console.log(error.code, error.message))
     }
-
-    // payPalPayment = (amt) => {
-    //     console.log('Entered Pay Pal Payment' + amt);
-    //     x = parseFloat(amt).toFixed(2)
-    //     fetch('https://us-central1-the-essential-machine.cloudfunctions.net/paypal', {
-    //         method: 'POST',
-    //         headers: {
-    //         Accept: 'application/json',
-    //         'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //         amount: x,
-    //         }),
-    //     }).then((response) => response.json())
-    // }
 
     handleDiscount = (text) => {
         this.setState({ coupon: text })

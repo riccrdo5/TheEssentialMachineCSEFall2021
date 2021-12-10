@@ -50,7 +50,7 @@ export default class notifications extends React.Component{
 
                 {this.state.promotions && this.state.promotions.map(promo => (
                     <View style={{flexDirection:"row",margin: 10, marginTop:15, height:50, width:300, backgroundColor:'white', borderRadius:20}}>
-                        <Text multiline style={{fontSize:14, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15, width:280,}}>{promo.body} : {promo.coupon} </Text>
+                        <Text multiline style={{fontSize:14, fontWeight:"700", textAlign:'left', paddingLeft:20, marginTop:15, width:250,}}>{promo.body} : {promo.coupon} </Text>
                         <TouchableOpacity onPress={()=> this.handleCopy(promo.coupon)} >
                             <Image source={require('./copy-icon.png')} style={{height:50, width:50, left:5}}/>
                         </TouchableOpacity>
