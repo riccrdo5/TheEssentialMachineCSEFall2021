@@ -1,6 +1,6 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TextInput, TouchableOpacity, AsyncStorage, Modal} from 'react-native';
+import {View, TextInput, TouchableOpacity, AsyncStorage,Linking} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import Login from './LoginPage.js';
 import SignUp from './SignUp.js';
@@ -13,8 +13,14 @@ import { GooglePay, RequestDataType} from 'react-native-google-pay';
 import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true }, {merge:true});
-import {WebView} from 'react-native-webview';
 import BitcoinTestPay from './bitcoin-test-pay.js';
+import { PaypalConfig } from './Constants.js';
+import qs from 'qs';
+import { decode, encode } from 'base-64'
+import axios from 'axios';
+if (!global.btoa) {  global.btoa = encode }
+if (!global.atob) { global.atob = decode } 
+import PayPalProcessing from './PayPalProcessing.js';
 
 // import WKWebView from 'react-native-wkwebview-reborn';
 
@@ -24,6 +30,8 @@ const allowedCardAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'];
 if(Platform.OS === 'android'){
   GooglePay.setEnvironment(GooglePay.ENVIRONMENT_PRODUCTION);
 }
+
+let timer;
 
 export default class PaymentOptions extends React.Component{
      constructor(){
@@ -40,7 +48,102 @@ export default class PaymentOptions extends React.Component{
         amount: '',
         couponApplied: false
     }
-  
+
+    checkAndExecuteFunction = async (accessToken,paymentId) => {
+        console.log("Entered checkAndExecuteFunction")
+        axios.get(PaypalConfig.url + '/v1/payments/payment/' + paymentId, {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        })
+            .then(response => {
+            clearInterval(timer)
+            console.log(response.data)
+            if (response.data.payer && response.data.payer.payer_info && response.data.payer.payer_info.payer_id) {
+                const payerId = response.data.payer.payer_info.payer_id
+                axios.post(PaypalConfig.url + '/v1/payments/payment/' + paymentId + '/execute', {
+                "payer_id": payerId
+                }, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    console.log("payment executed")
+                    this.props.navigation.navigate('ApplePaySuccess')
+                })
+                .catch(err => {
+                console.error(err)
+                })
+            }
+            })
+            .catch(err => {
+            console.error(err)
+        })
+    }
+
+    onPayPress = async () => {
+        amount = this.state.amount
+        console.log("Entered PayPal with amount" + amount)
+        const data = { 'grant_type': 'client_credentials' };
+        const options = {
+            method: 'POST',
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            auth: {
+                username: PaypalConfig.Client_ID,
+                password: PaypalConfig.Secret,
+                },
+            data: qs.stringify(data),
+            url: PaypalConfig.url + '/v1/oauth2/token',
+        };
+        axios(options).then(response => {
+            const accessToken = response.data.access_token
+            console.log(accessToken)
+            axios.post(PaypalConfig.url + "/v1/payments/payment",
+            {
+            "intent": "sale",
+            "payer": {
+                "payment_method": "paypal"
+            },
+            "transactions": [
+                {
+                "amount": {
+                    "total": amount,
+                    "currency": "USD",
+                    "details": {
+                    "subtotal": amount,
+                    }
+                },
+                "description": "Paying Essential Machine.",
+                "payment_options": {
+                    "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
+                },
+                }
+            ],
+            "note_to_payer": "Contact us for any questions on your order.",
+            "redirect_urls": {
+                "return_url": "temapp://purchaseDone",
+                "cancel_url": "temapp://purchaseDone"
+            }
+            }
+            , {
+            headers: { Authorization: `Bearer ${accessToken}` }
+            }).then(response => {
+                console.log(response.data)
+                const payId = response.data.id
+                let url = response.data.links[1].href
+                Linking.openURL(url);
+                if (timer) {
+                    clearInterval(timer)
+                }
+                timer = setInterval(() => this.checkAndExecuteFunction(accessToken, payId), 5000)
+                })
+            .catch(error => {
+            console.error(error)
+            })
+            })
+            .catch(err => {
+            console.error(err)
+            })
+    }
+
     addVendingMachineForNotificationUse = async(vendingMachineId) => {
         console.log("Updating values for Notifications Functionality")
         var dbRef = firestoreDb.collection("notifications").where("email","==", useremail)
@@ -59,22 +162,6 @@ export default class PaymentOptions extends React.Component{
         });
         console.log("Updation Complete")
     }
-
-    state = {
-        showModal: false,
-    };
-
-    handleResponse = (data) => {
-        if (data.title === "success") {
-            this.setState({ showModal: false, status: "Complete" });
-            this.props.navigation.navigate('ApplePaySuccess')
-            // this.props.navigation.navigate('Surprise')
-        } else if (data.title === "cancel") {
-            this.setState({ showModal: false, status: "Cancelled" });
-        } else {
-            return;
-        }
-    };
 
     addReceipt = async(amt) => {
         const vendingMachineId = this.props.navigation.getParam('vm_id');
@@ -302,22 +389,7 @@ export default class PaymentOptions extends React.Component{
                 <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
             </TouchableOpacity>
 
-
-            <Modal
-                    visible={this.state.showModal}
-                    onRequestClose={() => this.setState({ showModal: false })}
-                >
-                    <WebView
-                        useWebKit={true}
-                        source={{ uri: "https://17d2-160-72-138-210.ngrok.io" }}
-                        onNavigationStateChange={data =>
-                            this.handleResponse(data)
-                        }
-                        injectedJavaScript={`document.f1.submit()`}
-                    />
-            </Modal>
-
-            <TouchableOpacity onPress={() => this.setState({ showModal: true }) } >
+            <TouchableOpacity onPress={() => this.onPayPress()} >
                 <Image source={require('./paypal-icon.jpeg')} style={{height:70, width:80,borderRadius:300}}/>
             </TouchableOpacity>
             </View>

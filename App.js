@@ -32,6 +32,7 @@ import VendingMachine from './Screens/VendingMachine.js';
 import notifications from './Screens/notifications.js';
 import InvalidQRCode from './Screens/InvalidQRCode.js';
 import BitcoinTestPay from './Screens/bitcoin-test-pay.js';
+import PayPalProcessing from './Screens/PayPalProcessing.js';
 
 const stackNavigator = createStackNavigator({
     // HomeScreen: HomeScreen,
