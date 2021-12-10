@@ -31,6 +31,7 @@ import CardPage from './Screens/card.js';
 import VendingMachine from './Screens/VendingMachine.js';
 import notifications from './Screens/notifications.js';
 import InvalidQRCode from './Screens/InvalidQRCode.js';
+import BitcoinTestPay from './Screens/bitcoin-test-pay.js';
 
 const stackNavigator = createStackNavigator({
     // HomeScreen: HomeScreen,
@@ -53,7 +54,9 @@ const stackNavigator = createStackNavigator({
     SendNotification: SendNotification,
     VendingMachine : VendingMachine,
     notifications: notifications,
-    InvalidQRCode : InvalidQRCode
+    InvalidQRCode : InvalidQRCode,
+    BitcoinTestPay : BitcoinTestPay
+
   },
   {
     headerMode: 'none',
