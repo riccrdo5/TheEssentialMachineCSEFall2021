@@ -17,12 +17,12 @@ render (){
     <TouchableOpacity onPress={() => this.props.navigation.goBack()} >
     <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70, left:10}}/>
     </TouchableOpacity>
-   <ScrollView>
-   <Unorderedlist bulletUnicode={0x2765} marginTop = '100' alignItems = 'center'>
-    <Text style={{top: 20, margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>Essential Machine is an attempt at solving the problem of reducing contact in School places by manufacturing vending machines (referred to as Essential Machine) that dispense various commercial products in a more convenient manner compared to physical stores. </Text>
+   <ScrollView style={{marginTop:20}}>
+   <Unorderedlist bulletUnicode={0x2022} marginTop = '100' alignItems = 'center' style={{left:10, fontSize:50}}>
+    <Text style={{margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>Essential Machine is an attempt at solving the problem of reducing contact in School places by manufacturing vending machines (referred to as Essential Machine) that dispense various commercial products in a more convenient manner compared to physical stores. </Text>
     </Unorderedlist>
-    <Unorderedlist bulletUnicode={0x2765}>
-    <Text style={{top: 20, margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>The Essential Machine is more advanced & safer than the typical vending machine allowing mobile payments and a smooth and faster checkout experience without the need of physical form of currencies.Our machine seeks to minimize this issue and help the regular population to perform a transaction easily.</Text>
+     <Unorderedlist bulletUnicode={0x2022} alignItems = 'center' style={{left:10, fontSize:50}}>
+    <Text style={{margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>The Essential Machine is more advanced & safer than the typical vending machine allowing mobile payments and a smooth and faster checkout experience without the need of physical form of currencies.Our machine seeks to minimize this issue and help the regular population to perform a transaction easily.</Text>
     </Unorderedlist>
     </ScrollView>
     </View>
@@ -38,11 +38,12 @@ render (){
     <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70, left:10}}/>
     </TouchableOpacity>
     <ScrollView>
-    <Text style={{top: 20, margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>Create an Account {"\n"}
-    1.)	Select the Sign Up button and tap on that.{"\n"}
-    2.)	Enter your first name, last name, school, city, state, zip code and email address on the signup screen{"\n"}
-    3.)	Create a password and confirm it and select create account.{"\n"}
-    4.)	Select Create Account
+    <Text style={{top: 20, margin: 20, fontSize:30, fontWeight:"bold", textAlign: 'justify', textAlignVertical: 'top'}}>To Create an Account {"\n"} </Text>
+    <Text multiline style={{fontSize:20, left:20, paddingRight:20}}>
+    1)	Select the Sign Up button and tap on that.{"\n\n"}
+    2)	Enter your first name, last name, school, city, state, zip code and email address on the signup screen{"\n\n"}
+    3)	Create a password and confirm it and select create account.{"\n\n"}
+    4)	Select Create Account
     </Text>
     {/* <Text style={{top: 20, margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>The Essential Machine is more advanced & safer than the typical vending machine allowing mobile payments and a smooth and faster checkout experience without the need of physical form of currencies.Our machine seeks to minimize this issue and help the regular population to perform a transaction easily.</Text> */}
     </ScrollView>
@@ -59,17 +60,23 @@ render (){
     <Image source={require('./back-icon.png')} style={{height:50, width:50,marginTop:70, left:10}}/>
     </TouchableOpacity>
     <ScrollView>
-    <Unorderedlist bulletUnicode={0x2765}>
-    <Text style={{top: 20, margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>What to do if i already have an account? {"\n"} Login into existing Account {"\n"}
-    1.)	Enter the email address and password to login
-    </Text>
+   <Unorderedlist bulletUnicode={0x2022} marginTop = '100' alignItems = 'center' style={{left:10, fontSize:50}}>
+    <Text style={{margin: 20, fontSize:20, textAlignVertical: 'top'}}>What to do if i already have an account? </Text>
     </Unorderedlist>
-    <Unorderedlist>
-    <Text style={{top: 20, margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>What if i forgot the password? {"\n"}
-
-    1.) Click on forgot password in the login page, it redirects you to a new page where you can give the email address, where you can reset the password. {"\n"}
-    2.)	The password reset information will be sent to the email mentioned. {"\n"}
-    </Text>
+    <Unorderedlist bulletUnicode={0x25E6} marginTop = '20' alignItems = 'center' style={{left:30, fontSize:30}}>
+    <Text style={{ left: 20,fontSize:15, margin: 10,textAlign: 'justify', textAlignVertical: 'top'}}>Login into existing Account </Text>
+    </Unorderedlist>
+    <Unorderedlist bulletUnicode={0x25E6} alignItems = 'center' style={{left:30, fontSize:30}}>
+    <Text style={{ left: 20,fontSize:15, margin: 10,textAlign: 'justify', textAlignVertical: 'top'}}>Enter the email address and password to login </Text>
+    </Unorderedlist>
+    <Unorderedlist bulletUnicode={0x2022} marginTop = '20' alignItems = 'center' style={{left:10, fontSize:50}}>
+    <Text style={{ margin: 20, fontSize:20, textAlign: 'justify', textAlignVertical: 'top'}}>What if I forgot the password? </Text>
+    </Unorderedlist>
+    <Unorderedlist bulletUnicode={0x25E6} marginTop = '20' alignItems = 'center' style={{left:30, fontSize:30}}>
+    <Text multiline style={{ left: 20, width:300, margin: 10, fontSize:15, textAlign: 'justify', textAlignVertical: 'top'}}>Click on forgot password in the login page, it redirects you to a new page where you can give the email address, where you can reset the password.</Text>
+    </Unorderedlist>
+    <Unorderedlist bulletUnicode={0x25E6} marginTop = '-10' alignItems = 'center' style={{left:30, fontSize:30}}>
+    <Text multiline style={{left: 20,width:300,margin: 10, fontSize:15, textAlign: 'justify', textAlignVertical: 'top'}}>The password reset information will be sent to the email mentioned. </Text>
     </Unorderedlist>
     </ScrollView>
     </View>

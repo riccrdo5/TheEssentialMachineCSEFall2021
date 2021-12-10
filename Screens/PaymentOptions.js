@@ -146,7 +146,7 @@ export default class PaymentOptions extends React.Component{
             })
     }
 
-    addVendingMachineForNotificationUse = async(vendingMachineId) => {
+    addVendingMachineForNotificationUse = async(vendingMachineId, useremail) => {
         console.log("Updating values for Notifications Functionality")
         var dbRef = firestoreDb.collection("notifications").where("email","==", useremail)
         await dbRef
@@ -163,6 +163,7 @@ export default class PaymentOptions extends React.Component{
             }
         });
         console.log("Updation Complete")
+        this.props.navigation.navigate('ApplePaySuccess')
     }
 
     addReceipt = async(amt, paymentMethod) => {
@@ -177,9 +178,8 @@ export default class PaymentOptions extends React.Component{
             timestamp: Date.now()
           }).then((docRef) => {
             console.log("Document written with ID: ", docRef.id);
-            this.addVendingMachineForNotificationUse(vendingMachineId)
+            this.addVendingMachineForNotificationUse(vendingMachineId, user)
             this.props.navigation.navigate('ApplePaySuccess')
-            // this.props.navigation.navigate('Surprise')
           })
           .catch((err) => {
             console.error("Error found: ", err);

@@ -65,7 +65,9 @@ const stackNavigator = createStackNavigator({
 
 const AuthStack = createStackNavigator(
   {
-    HomeScreen : HomeScreen
+    HomeScreen : HomeScreen,
+    helpPage : helpPage,
+    CardPage : CardPage,
   },
   {
     headerMode: 'none',
