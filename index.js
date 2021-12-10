@@ -48,7 +48,6 @@ async function convertApnTokenToFcmToken(token){
 
 PushNotificationIOS.addEventListener('register', token => {
       console.log('token: ', token);
-      alert(token);
     });
 
  PushNotificationIOS.addEventListener(
@@ -89,6 +88,11 @@ PushNotification.configure({
             title :notification.title,
             message: notification.message,
             // image: notification.bigPictureUrl,
+            });
+
+            PushNotificationIOS.presentLocalNotification({
+                alertTitle: notification.title,
+                alertBody : notification.message,
             });
         }
     // process the notification

@@ -1,9 +1,10 @@
 import React from 'react';  
 import {Button, Text, Image,ImageBackground} from 'react-native-elements';  
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TextInput, TouchableOpacity,ScrollView} from 'react-native';
 import UserAccount from './UserAccount.js'; 
 import { StackNavigator } from "react-navigation"; 
 import {firebaseApp} from '../config/firebase';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true });
@@ -188,7 +189,8 @@ export default class EditProfile extends React.Component{
         this.state.email = email
         return<>
             <View style={{flex:1, backgroundColor:"#46B2E0"}}>
-
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flex: 1}}>
+            <ScrollView  showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} style={styles.scrollView}>
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:15, paddingRight:10}}>
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('UserAccount')} >
             <Image source={require('./cross-icon.png')} style={{height:50, width:50,marginTop:60}}/>
@@ -199,61 +201,61 @@ export default class EditProfile extends React.Component{
             </View>
 
             <Text style={{fontSize:30, color:'white', fontWeight:'bold', textAlign:'center'}}> Edit Profile </Text>
-
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:15 }}> 
+            <View style={{left:10}}>
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:15 }}> 
                 <Image source={require('./name-icon.png')} style={{height:20, width:20}} />
-                <TextInput value={this.state.firstName} style={{fontSize:20, color:'grey'}} placeholder="  First Name" onChangeText={this.handleFirstName} />
+                <TextInput value={this.state.firstName} style={{fontSize:18, width:300, left:5, color:'grey'}} placeholder="  First Name" onChangeText={this.handleFirstName} />
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300,borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./name-icon.png')} style={{height:20, width:20}} />
-                <TextInput value={this.state.lastName} style={{fontSize:20, color:'grey'}} onChangeText={this.handleLastName} placeholder="  Last Name"/>
+                <TextInput value={this.state.lastName} style={{fontSize:18,width:300, left:5, color:'grey'}} onChangeText={this.handleLastName} placeholder="  Last Name"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./school-icon.png')} style={{height:20, width:20}} />
-                <TextInput value={this.state.school} style={{fontSize:20, color:'grey'}} onChangeText={this.handleSchool} placeholder="  School"/>
+                <TextInput value={this.state.school} style={{fontSize:18, width:300, left:5,color:'grey'}} onChangeText={this.handleSchool} placeholder="  School"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./city-icon.png')} style={{height:20, width:20}} />
-                <TextInput value={this.state.city} style={{fontSize:20, color:'grey'}} onChangeText={this.handleCity} placeholder="  City"/>
+                <TextInput value={this.state.city} style={{fontSize:18, width:300, left:5,color:'grey'}} onChangeText={this.handleCity} placeholder="  City"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./city-icon.png')} style={{height:20, width:20}} />
-                <TextInput value={this.state.state} style={{fontSize:20, color:'grey'}} onChangeText={this.handleState} placeholder="  State"/>
+                <TextInput value={this.state.state} style={{fontSize:18,width:300, left:5, color:'grey'}} onChangeText={this.handleState} placeholder="  State"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./map-icon.png')} style={{height:20, width:20}} />
-                <TextInput value={this.state.zip} style={{fontSize:20, color:'grey'}} onChangeText={this.handleZip} placeholder="  ZipCode"/>
+                <TextInput value={this.state.zip} style={{fontSize:18, width:300, left:5,color:'grey'}} onChangeText={this.handleZip} placeholder="  ZipCode"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} onPress={()=>{alert("You cannot edit the email address")}}>
+            <TouchableOpacity style={{flexDirection:"row", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} onPress={()=>{alert("You cannot edit the email address")}}>
                 <Image source={require('./email-icon.png')} style={{height:20, width:20}} />
-                <TextInput editable={false} value={this.state.email} style={{fontSize:20, color:'grey'}} onChangeText={this.handleEmail} placeholder="  Email Address"/>
+                <TextInput editable={false} value={this.state.email} style={{fontSize:18,width:300, left:5, color:'grey'}} onChangeText={this.handleEmail} placeholder="  Email Address"/>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey', right:55}}  secureTextEntry={this.state.hiddenCurrentPassword} onChangeText={this.handleCurrentPassword}  placeholder="  Current Password"/>
+                <TextInput style={{fontSize:20, width:235, left:5,color:'grey'}}  secureTextEntry={this.state.hiddenCurrentPassword} onChangeText={this.handleCurrentPassword}  placeholder="  Current Password"/>
                 <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ hiddenCurrentPassword: !this.state.hiddenCurrentPassword })}>
                 <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
                 </TouchableOpacity>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey', right:65}} secureTextEntry={this.state.hiddenNewPassword} onChangeText={this.handleNewPassword} placeholder="  New Password"/>
+                <TextInput style={{fontSize:20,width:235, left:5, color:'grey'}} secureTextEntry={this.state.hiddenNewPassword} onChangeText={this.handleNewPassword} placeholder="  New Password"/>
                 <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ hiddenNewPassword: !this.state.hiddenNewPassword })}>
                 <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
                 </TouchableOpacity>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:320, left:30, borderRadius:20, marginTop:20 }} > 
+            <TouchableOpacity style={{flexDirection:"row", justifyContent:"space-between", backgroundColor:"white", alignItems:"center", padding:8, width:300, borderRadius:20, marginTop:20 }} > 
                 <Image source={require('./password-icon.png')} style={{height:20, width:20}} />
-                <TextInput style={{fontSize:20, color:'grey', right:40}} secureTextEntry={this.state.handleConfirmNewPassword} onChangeText={this.handleConfirmNewPassword} placeholder="  Confirm New Password"/>
+                <TextInput style={{fontSize:20, width:235, left:5,color:'grey'}} secureTextEntry={this.state.handleConfirmNewPassword} onChangeText={this.handleConfirmNewPassword} placeholder="  Confirm New Password"/>
                 <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>this.setState({ handleConfirmNewPassword: !this.state.handleConfirmNewPassword })}>
                 <Image source={require('./passwordshow-icon.png')} style={{height:15, width:15}} />
                 </TouchableOpacity>
@@ -264,6 +266,10 @@ export default class EditProfile extends React.Component{
 
              {this.state.successMessage!='' &&
             <Text style={{color: '#57f416',fontSize: 18,textAlign:'center', fontWeight: '600'}}> {this.state.successMessage} </Text>}
+            </View>
+            </ScrollView>
+            </KeyboardAwareScrollView>
+
             
             <TouchableOpacity onPress={()=>{this.props.navigation.navigate('helpPage')}}>
             <Image source={require('./help-icon.png')} style={{height:60, width:60, left:20, marginTop:30 }} />
@@ -273,3 +279,10 @@ export default class EditProfile extends React.Component{
     }
 };
 
+const styles = StyleSheet.create({
+    scrollView: {
+      flex: 1,
+      marginHorizontal: 30,
+      flexGrow : 1.5
+    }
+  });
