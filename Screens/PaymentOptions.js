@@ -14,6 +14,8 @@ import * as firebase from 'firebase';
 const firestoreDb = firebaseApp.firestore();
 firestoreDb.settings({ experimentalForceLongPolling: true }, {merge:true});
 import {WebView} from 'react-native-webview';
+import BitcoinTestPay from './bitcoin-test-pay.js';
+
 // import WKWebView from 'react-native-wkwebview-reborn';
 
 const allowedCardNetworks = ['VISA', 'MASTERCARD', 'DISCOVER', 'AMEX'];
