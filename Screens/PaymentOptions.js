@@ -364,17 +364,12 @@ export default class PaymentOptions extends React.Component{
             
             <Text style={{paddingLeft:25, fontSize:25, fontWeight:'500', marginTop:20}}> Pay with: </Text>
             
-                 { /*
+            
             <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:10}}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinPay', {text:this.state.amount, id:machineId , UserEmail:user})}>
                 <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
             </TouchableOpacity>
-            */ }
-
-            <View style={{flexDirection:"row",justifyContent:'space-between', paddingLeft:80, paddingRight:80, marginTop:10}}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('BitcoinTestPay', {text:this.state.amount, id:machineId , UserEmail:user})}>
-                <Image source={require('./bitcoin-icon.png')} style={{height:70, width:70}}/>
-            </TouchableOpacity>
+            
 
             <TouchableOpacity onPress={() => this.onPayPress()} >
                 <Image source={require('./paypal-icon.jpeg')} style={{height:70, width:80,borderRadius:300}}/>
